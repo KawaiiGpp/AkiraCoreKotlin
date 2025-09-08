@@ -1,0 +1,5 @@
+name: AkiraCore
+version: ${version}
+main: com.akira.core.AkiraCore
+authors: [Yukino_Akira]
+api-version: 1.20
