@@ -13,12 +13,16 @@ class ItemBuilder {
     var amount: Int = 1
     var unbreakable: Boolean = false
     var unsafeAmount: Boolean = false
-    var flags: MutableList<ItemFlag> = mutableListOf()
+    var flags: MutableSet<ItemFlag> = mutableSetOf()
     var enchantments: MutableList<Pair<Enchantment, Int>> = mutableListOf()
 
     fun addLores(vararg lines: String) = lines.forEach(this.lore::add)
 
+    fun addLore(line: String) = lore.add(line)
+
     fun addFlags(vararg flags: ItemFlag) = flags.forEach(this.flags::add)
+
+    fun addFlag(flag: ItemFlag) = flags.add(flag)
 
     fun addEnchant(ench: Enchantment, level: Int) = enchantments.add(ench to level)
 
