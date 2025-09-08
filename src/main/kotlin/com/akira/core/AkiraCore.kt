@@ -1,5 +1,14 @@
 package com.akira.core
 
-import org.bukkit.plugin.java.JavaPlugin
+import com.akira.core.api.AkiraPlugin
 
-class AkiraCore : JavaPlugin()
+class AkiraCore : AkiraPlugin() {
+    companion object {
+        lateinit var instance: AkiraCore
+            private set
+    }
+
+    init {
+        instance = this
+    }
+}
