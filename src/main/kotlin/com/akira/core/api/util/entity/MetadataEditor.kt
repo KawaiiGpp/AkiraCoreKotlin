@@ -5,7 +5,7 @@ import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.metadata.MetadataValue
 import org.bukkit.metadata.Metadatable
 
-class MetadataEditor(val plugin: AkiraPlugin, val owner: Metadatable) {
+class MetadataEditor(private val plugin: AkiraPlugin, private val owner: Metadatable) {
     fun remove(path: String) = owner.removeMetadata(path, plugin)
 
     fun set(path: String, o: Any) = owner.setMetadata(path, FixedMetadataValue(plugin, o))
