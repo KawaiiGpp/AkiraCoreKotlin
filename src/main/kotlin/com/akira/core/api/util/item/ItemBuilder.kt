@@ -8,9 +8,10 @@ import org.bukkit.inventory.ItemStack
 
 class ItemBuilder {
     var material: Material? = null
+    var amount: Int = 1
     var displayName: String? = null
     var lore: MutableList<String> = mutableListOf()
-    var amount: Int = 1
+
     var unbreakable: Boolean = false
     var unsafeAmount: Boolean = false
     var flags: MutableSet<ItemFlag> = mutableSetOf()
@@ -27,16 +28,16 @@ class ItemBuilder {
     fun addEnchant(ench: Enchantment, level: Int) = enchantments.add(ench to level)
 
     fun build(): ItemStack {
+        val material = this.material
         requireNotNull(material) { "Material cannot be null." }
 
-        val material = this.material!!
-        require(material.isItem) { "Material must be an Item." }
-        require(amount > 0) { "Item amount must be > 0." }
+        require(material.isItem) { "Material $material cannot be an Item." }
+        require(amount > 0) { "Item amount must be > 0. (Actual: $amount)" }
         require(unsafeAmount || amount <= material.maxStackSize) { "Item amount limit exceeded." }
 
         val item = ItemStack(material, amount)
         val meta = item.itemMeta
-        requireNotNull(meta) { "Item meta from ${material.name} is null." }
+        requireNotNull(meta) { "Item meta from $material is null." }
 
         displayName?.let { meta.displayName(it.toComponent()) }
         if (!lore.isEmpty()) meta.lore(lore.map(String::toComponent))
