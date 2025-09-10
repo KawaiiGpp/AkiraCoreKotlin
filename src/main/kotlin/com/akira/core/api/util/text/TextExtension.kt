@@ -1,8 +1,15 @@
 package com.akira.core.api.util.text
 
+import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
+import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 
 fun String.toComponent(): TextComponent = LegacyComponentSerializer.legacySection().deserialize(this)
 
 fun TextComponent.toLegacy(): String = LegacyComponentSerializer.legacySection().serialize(this)
+
+fun Audience.sendLine(length: Int, color: NamedTextColor) = sendMessage(generateLine(length, color))
+
+fun Audience.sendEmptyLine() = sendMessage(Component.text())
