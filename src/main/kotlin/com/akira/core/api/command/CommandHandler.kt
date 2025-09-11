@@ -16,10 +16,14 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
     }
 
     fun register(node: CommandNode) {
-        require(!nodes.contains(node)) { "Node ${node.asString} already registered." }
+        require(!nodes.contains(node)) {
+            "From command /$name: Node '${node.asString}' already registered."
+        }
 
         nodes.forEach {
-            require(!it.conflictsWith(node)) { "Node ${node.asString} conflicts with existing node ${it.asString}." }
+            require(!it.conflictsWith(node)) {
+                "From command /$name: Node '${node.asString}' conflicts with existing node '${it.asString}'."
+            }
         }
 
         nodes.add(node)
