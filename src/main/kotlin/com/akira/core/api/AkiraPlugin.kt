@@ -1,9 +1,11 @@
 package com.akira.core.api
 
+import com.akira.core.api.command.EnhancedExecutor
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AkiraPlugin : JavaPlugin() {
@@ -24,6 +26,15 @@ abstract class AkiraPlugin : JavaPlugin() {
     fun logWarn(message: String) = log("Warn", NamedTextColor.YELLOW, message)
 
     fun logError(message: String) = log("Error", NamedTextColor.RED, message)
+
+    fun setupCommand(name: String, executor: EnhancedExecutor) {
+        val command = this.getCommand(name)
+        requireNotNull(command) { "Command not found: $name" }
+
+        command.setExecutor(executor)
+    }
+
+    fun setupListener(listener: Listener) = Bukkit.getPluginManager().registerEvents(listener, this)
 
     private fun log(prefix: String, color: TextColor, message: String) {
         val tag = Component.text("[", NamedTextColor.GRAY)
