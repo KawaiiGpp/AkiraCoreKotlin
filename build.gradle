@@ -45,6 +45,8 @@ tasks.build {
 }
 
 processResources {
+    inputs.property("checkVersion", project.version)
+
     filesMatching('plugin.yml') {
         expand(version: project.version)
     }
