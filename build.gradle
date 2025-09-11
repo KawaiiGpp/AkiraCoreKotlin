@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.akira'
-version = '1.1.0'
+version = '1.1.1'
 
 def serverFolder = 'D:/Server/PaperDebug'
 def libsFolder = serverFolder + '/libraries'

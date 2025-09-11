@@ -43,7 +43,7 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
 
             !node.limit.allow(sender) -> sender.sendMessage(
                 Component.text(
-                    "错误：${node.limit.deniedMessage}",
+                    "无法以当前身份执行：${node.limit.deniedMessage}",
                     NamedTextColor.RED
                 )
             )
