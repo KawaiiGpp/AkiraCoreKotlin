@@ -1,12 +1,12 @@
 package com.akira.core.api.menu
 
-import com.akira.core.api.util.item.ensureLegitItem
+import com.akira.core.api.util.item.requireValidItemMeta
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 abstract class MenuItem(private val item: ItemStack) {
     init {
-        ensureLegitItem(item)
+        requireValidItemMeta(item)
     }
 
     fun copyItem() : ItemStack = item.clone()

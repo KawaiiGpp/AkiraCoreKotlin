@@ -27,16 +27,14 @@ class ItemTagEditor(
     fun remove(key: String) = data.remove(createKey(key))
 
     fun apply(item: ItemStack) {
-        ensureLegitItem(item)
+        requireValidItemMeta(item)
         item.itemMeta = meta.clone()
     }
 
     private fun createKey(key: String): NamespacedKey = NamespacedKey(plugin, key)
 
     companion object {
-        fun forItemMeta(plugin: AkiraPlugin, item: ItemStack): ItemTagEditor {
-            ensureLegitItem(item)
-            return ItemTagEditor(plugin, item.itemMeta)
-        }
+        fun forItemMeta(plugin: AkiraPlugin, item: ItemStack): ItemTagEditor =
+            ItemTagEditor(plugin, requireValidItemMeta(item))
     }
 }
