@@ -12,15 +12,15 @@ abstract class EnhancedExecutor(protected val plugin: AkiraPlugin, val name: Str
         sender: CommandSender,
         cmd: Command,
         label: String,
-        args: Array<out String>
-    ): Boolean = handler.execute(sender, Array(args.size) { args[it] }).let { true }
+        args: Array<String>
+    ): Boolean = handler.execute(sender, args).let { true }
 
     override fun onTabComplete(
         sender: CommandSender,
         cmd: Command,
         label: String,
-        args: Array<out String>
-    ): List<String?>? = handler.suggest(sender, Array(args.size) { args[it] }).ifEmpty { null }
+        args: Array<String>
+    ): List<String?>? = handler.suggest(sender, args).ifEmpty { null }
 
     protected fun registerNode(node: CommandNode) = handler.register(node)
 }
