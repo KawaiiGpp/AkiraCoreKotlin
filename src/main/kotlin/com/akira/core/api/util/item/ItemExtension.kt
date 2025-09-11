@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
 fun ItemStack.editMeta(block: ItemMeta.() -> Unit) {
-    val meta = requireValidItemMeta(this)
+    val meta = requireValidMeta(this)
     meta.block()
     itemMeta = meta
 }

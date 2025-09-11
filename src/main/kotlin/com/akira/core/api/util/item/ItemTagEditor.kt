@@ -27,7 +27,7 @@ class ItemTagEditor(
     fun remove(key: String) = data.remove(createKey(key))
 
     fun apply(item: ItemStack) {
-        requireValidItemMeta(item)
+        requireValidMeta(item)
         item.itemMeta = meta.clone()
     }
 
@@ -35,6 +35,6 @@ class ItemTagEditor(
 
     companion object {
         fun forItemMeta(plugin: AkiraPlugin, item: ItemStack): ItemTagEditor =
-            ItemTagEditor(plugin, requireValidItemMeta(item))
+            ItemTagEditor(plugin, requireValidMeta(item))
     }
 }
