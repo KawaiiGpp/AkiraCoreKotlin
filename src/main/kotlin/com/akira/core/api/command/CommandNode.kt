@@ -11,7 +11,7 @@ abstract class CommandNode(
     val asString = arguments.joinToString(" ") { it.formatted }
     val usage = "/$root $asString"
 
-    constructor(root: String, limit: SenderLimit, arguments: List<String>, description: String) :
+    constructor(root: String, limit: SenderLimit, arguments: Array<String>, description: String) :
             this(root, limit, arguments.map { CommandArg.forRaw(it) }, description)
 
     fun executeCommand(sender: CommandSender, args: Array<String>): Boolean {

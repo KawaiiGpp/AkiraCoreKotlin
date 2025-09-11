@@ -78,7 +78,7 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
             .map { it.content }.toList()
 
     private fun createHelpCommandNode(): CommandNode =
-        object : CommandNode(name, SenderLimit.NONE, listOf("help"), "列出可用的所有指令节点。") {
+        object : CommandNode(name, SenderLimit.NONE, arrayOf("help"), "列出可用的所有指令节点。") {
             override fun execute(sender: CommandSender, args: Array<String>): Boolean {
                 sender.sendLine(60, NamedTextColor.DARK_GRAY)
 
