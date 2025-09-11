@@ -26,7 +26,8 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
     }
 
     fun execute(sender: CommandSender, args: Array<String>) {
-        val node = nodes.firstOrNull { it.matches(args) }
+        val node = nodes.filter { it.matches(args) }
+            .maxByOrNull { it.arguments.count { it.literal } }
 
         when {
             node == null -> sender.sendMessage(
