@@ -5,7 +5,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
-class DyedArmorGenerator(val color: Color) {
+class DyedArmorGenerator(private val color: Color) {
     fun createHelmet(): ItemStack = create(Material.LEATHER_HELMET)
 
     fun createChestplate(): ItemStack = create(Material.LEATHER_CHESTPLATE)
