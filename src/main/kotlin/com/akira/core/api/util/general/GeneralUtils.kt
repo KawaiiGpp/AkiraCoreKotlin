@@ -1,6 +1,48 @@
 package com.akira.core.api.util.general
 
 import java.util.*
+import kotlin.math.roundToInt
+
+val randomController = Random()
 
 fun specifyUniqueId(source: String, namespace: String? = null): UUID =
     UUID.nameUUIDFromBytes("$namespace:$source".toByteArray(Charsets.UTF_8))
+
+fun rollChance(chance: Int): Boolean =
+    chance.also {
+        require(it >= 0 && it <= 100) {
+            "Chance out of range [0,100]: $it"
+        }
+    }.let { randomController.nextInt(100) + 1 <= chance }
+
+fun rollChance(chance: Double): Boolean =
+    chance.also {
+        require(it >= 0.0 && it <= 1.0) {
+            "Chance out of range [0D,1D]: $it"
+        }
+    }.let { rollChance((it * 100).roundToInt()) }
+
+inline fun <reified T : Enum<T>> nullableEnumOf(name: String): T? =
+    enumValues<T>().firstOrNull { it.name == name }
+
+fun <T> randomSublist(list: List<T>, amount: Int): List<T> {
+    require(!list.isEmpty()) { "Cannot get sublists from an empty collection." }
+    require(amount <= list.size) { "The amount required > the actual size of the list." }
+
+    return list.shuffled(randomController).take(amount)
+}
+
+fun <T> randomWeightedSublist(list: List<T>, amount: Int, transform: (T) -> Int): List<T> {
+    require(!list.isEmpty()) { "Cannot get sublists from an empty collection." }
+    require(amount <= list.size) { "The amount required > the actual size of the list." }
+
+    val copy = list.toMutableList()
+    val result = mutableListOf<T>()
+    repeat(amount) {
+        copy.randomWeighted(transform)
+            .also { result.add(it) }
+            .also { copy.remove(it) }
+    }
+
+    return result
+}
