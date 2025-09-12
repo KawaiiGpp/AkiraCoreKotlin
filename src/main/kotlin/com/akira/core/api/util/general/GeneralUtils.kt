@@ -10,16 +10,12 @@ fun specifyUniqueId(source: String, namespace: String? = null): UUID =
 
 fun rollChance(chance: Int): Boolean =
     chance.also {
-        require(it >= 0 && it <= 100) {
-            "Chance out of range [0,100]: $it"
-        }
+        require(it in 0..100) { "Chance out of range [0,100]: $it" }
     }.let { randomController.nextInt(100) + 1 <= chance }
 
 fun rollChance(chance: Double): Boolean =
     chance.also {
-        require(it >= 0.0 && it <= 1.0) {
-            "Chance out of range [0D,1D]: $it"
-        }
+        require(it in 0.0..1.0) { "Chance out of range [0D,1D]: $it" }
     }.let { rollChance((it * 100).roundToInt()) }
 
 inline fun <reified T : Enum<T>> nullableEnumOf(name: String): T? =
