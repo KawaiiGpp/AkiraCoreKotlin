@@ -22,14 +22,14 @@ inline fun <reified T : Enum<T>> nullableEnumOf(name: String): T? =
     enumValues<T>().firstOrNull { it.name == name }
 
 fun <T> randomSublist(list: List<T>, amount: Int): List<T> {
-    require(!list.isEmpty()) { "Cannot get sublists from an empty collection." }
+    require(list.isNotEmpty()) { "Cannot get sublists from an empty collection." }
     require(amount <= list.size) { "The amount required > the actual size of the list." }
 
     return list.shuffled(randomController).take(amount)
 }
 
 fun <T> randomWeightedSublist(list: List<T>, amount: Int, transform: (T) -> Int): List<T> {
-    require(!list.isEmpty()) { "Cannot get sublists from an empty collection." }
+    require(list.isNotEmpty()) { "Cannot get sublists from an empty collection." }
     require(amount <= list.size) { "The amount required > the actual size of the list." }
 
     val copy = list.toMutableList()

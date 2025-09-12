@@ -40,7 +40,7 @@ class ItemBuilder {
         requireNotNull(meta) { "Item meta from $material is null." }
 
         displayName?.let { meta.displayName(it.toComponent()) }
-        if (!lore.isEmpty()) meta.lore(lore.map(String::toComponent))
+        if (lore.isNotEmpty()) meta.lore(lore.map(String::toComponent))
         meta.isUnbreakable = unbreakable
         flags.forEach(meta.itemFlags::add)
         enchantments.forEach { (ench, lvl) -> meta.addEnchant(ench, lvl, true) }
