@@ -33,7 +33,7 @@ class AttributeEditor(
         instance.modifiers.any { it.uniqueId == specifyUniqueId(name, namespace) }
 
     companion object {
-        fun forLivingEntity(target: LivingEntity, attribute: Attribute, namespace: String): AttributeEditor =
+        fun forEntity(target: LivingEntity, attribute: Attribute, namespace: String): AttributeEditor =
             AttributeEditor(target.getNonNullAttribute(attribute), namespace)
     }
 }
