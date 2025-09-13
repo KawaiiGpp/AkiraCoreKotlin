@@ -42,3 +42,6 @@ fun <T> randomWeightedSublist(list: List<T>, amount: Int, transform: (T) -> Int)
 
     return result
 }
+
+fun <T> requireLegit(value: T, predicate: (T) -> Boolean, message: ((T) -> String)? = null): T =
+    requireNotNull(value.takeIf(predicate)) { message?.invoke(value) ?: "Value not legit: $value" }
