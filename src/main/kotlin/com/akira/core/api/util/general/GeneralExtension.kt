@@ -7,7 +7,7 @@ fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
     }.also { require(it.isNotEmpty()) {"No elements to get randomly."} }
 
     val sum = list.sumOf { it.second }
-    val point = randomController.nextInt(sum) + 1
+    val point = globalRandom.nextInt(sum) + 1
     var weightCounter = 0
 
     list.forEach { (element, weight) ->
