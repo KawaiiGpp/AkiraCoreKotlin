@@ -45,3 +45,16 @@ fun <T> randomWeightedSublist(list: List<T>, amount: Int, transform: (T) -> Int)
 
 fun <T> requireLegit(value: T, predicate: (T) -> Boolean, message: ((T) -> String)? = null): T =
     requireNotNull(value.takeIf(predicate)) { message?.invoke(value) ?: "Value not legit: $value" }
+
+fun separateUniqueId(raw: String): String {
+    require(raw.length == 32) { "Wrong length for Raw unique id: $raw" }
+    require(!raw.contains(Regex("\\s"))) { "Raw unique id cannot contain any space." }
+
+    return StringBuilder(raw)
+        .apply {
+            insert(23, "-")
+            insert(18, "-")
+            insert(13, "-")
+            insert(8, "-")
+        }.toString()
+}
