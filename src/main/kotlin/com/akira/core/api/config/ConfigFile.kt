@@ -2,6 +2,7 @@ package com.akira.core.api.config
 
 import com.akira.core.api.AkiraPlugin
 import org.bukkit.configuration.file.YamlConfiguration
+import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
@@ -34,7 +35,7 @@ abstract class ConfigFile(
         val stream = plugin.getResource("$templatePath/$fullName")
         requireNotNull(stream) { "Cannot find the template for $name at $templatePath." }
 
-        InputStreamReader(stream).use {
+        BufferedReader(InputStreamReader(stream)).use {
             config.addDefaults(YamlConfiguration.loadConfiguration(it))
             config.options().copyDefaults(true)
         }
