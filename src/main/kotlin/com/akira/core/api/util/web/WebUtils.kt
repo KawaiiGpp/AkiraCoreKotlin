@@ -1,6 +1,7 @@
 package com.akira.core.api.util.web
 
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -25,8 +26,10 @@ fun fetchHttp(
 
         val code = connection.responseCode
 
-        val suffix = connection.errorStream?.let { " with details: ${read(it)}" } ?: ""
-        require(code == 200) { "Incorrect response code $code from $url$suffix" }
+        if (code != 200) {
+            val suffix = connection.errorStream?.let { "\n${read(it)}" } ?: ""
+            throw IOException("Incorrect response code $code from $url$suffix")
+        }
 
         return read(connection.inputStream)
     } finally {
