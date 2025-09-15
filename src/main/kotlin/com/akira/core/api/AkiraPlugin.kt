@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class AkiraPlugin : JavaPlugin() {
     override fun onEnable() {
         val version = pluginMeta.version;
-        val authors = pluginMeta.authors.joinToString(", ")
+        val authors = pluginMeta.authors.joinToString()
 
         logInfo("插件 $name 已成功启用。")
         logInfo("版本：$version，作者：$authors")
