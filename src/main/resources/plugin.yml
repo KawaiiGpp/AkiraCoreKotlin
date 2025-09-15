@@ -3,3 +3,13 @@ version: ${version}
 main: com.akira.core.AkiraCore
 authors: [Yukino_Akira]
 api-version: 1.20
+
+commands:
+  akiracore:
+    permission: akiracore.user
+
+permissions:
+  akiracore.user:
+    default: true
+  akiracore.admin:
+    default: op
