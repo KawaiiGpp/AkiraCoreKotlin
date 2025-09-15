@@ -29,7 +29,7 @@ fun deserializeLocation(raw: String): Location {
 
 
         return Location(world, x, y, z, yaw, pitch)
-    } catch (exception: Exception) {
+    } catch (exception: Throwable) {
         throw IllegalArgumentException("Failed parsing raw location: $raw", exception)
     }
 }
