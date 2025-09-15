@@ -16,6 +16,6 @@ class AkiraCore : AkiraPlugin() {
     override fun onEnable() {
         super.onEnable()
 
-        setupCommand(InfoCommand(this, "akiracore"))
+        setupCommand(InfoCommand(this))
     }
 }

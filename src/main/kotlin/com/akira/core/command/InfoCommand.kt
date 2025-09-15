@@ -9,7 +9,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.CommandSender
 
-class InfoCommand(plugin: AkiraCore, name: String) : EnhancedExecutor(plugin, name) {
+class InfoCommand(plugin: AkiraCore) : EnhancedExecutor(plugin, "akiracore") {
     init {
         registerNode(Info())
     }
