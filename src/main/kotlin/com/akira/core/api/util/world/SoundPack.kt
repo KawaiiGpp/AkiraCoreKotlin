@@ -18,5 +18,5 @@ data class SoundPack(
 
     fun broadcastEnvironment(entity: Entity) = entity.world.playSound(entity.location, type, volume, pitch)
 
-    fun broadcast(location: Location) = location.nonNullWorld.playSound(location, type, volume, pitch)
+    fun broadcast(location: Location) = location.worldNonNull.playSound(location, type, volume, pitch)
 }
