@@ -27,9 +27,9 @@ abstract class AkiraPlugin : JavaPlugin() {
 
     fun logError(message: String) = log("Error", NamedTextColor.RED, message)
 
-    fun setupCommand(name: String, executor: EnhancedExecutor) {
-        val command = this.getCommand(name)
-        requireNotNull(command) { "Command not found: $name" }
+    fun setupCommand(executor: EnhancedExecutor) {
+        val command = this.getCommand(executor.name)
+        requireNotNull(command) { "Command not found: ${executor.name}" }
 
         command.setExecutor(executor)
     }
