@@ -9,7 +9,7 @@ import java.io.InputStreamReader
 abstract class ConfigFile(
     protected val plugin: AkiraPlugin,
     protected val name: String,
-    protected val templatePath: String?
+    protected val templatePath: String? = null
 ) {
     protected val fullName = "$name.yml"
     protected val file = File(plugin.dataFolder, fullName)
