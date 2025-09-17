@@ -4,42 +4,40 @@ import com.akira.core.api.util.general.requireLegit
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-fun Double.simplify(decimalAmount: Int): Double =
-    BigDecimal.valueOf(this.also {
-        require(it > 0) {
-            "Decimal amount must be > 0."
-        }
-    }).setScale(decimalAmount, RoundingMode.HALF_UP)
-        .toDouble()
+inline fun <reified T : Number> T.simplify(decimalAmount: Int): T {
+    this.requiresLegit()
+    decimalAmount.requiresNonNegative()
 
-fun Float.simplify(decimalAmount: Int): Float =
-    BigDecimal.valueOf(this.toDouble().also {
-        require(it > 0) {
-            "Decimal amount must be > 0."
-        }
-    }).setScale(decimalAmount, RoundingMode.HALF_UP)
-        .toFloat()
+    val decimal = BigDecimal.valueOf(this.toDouble())
+        .setScale(decimalAmount, RoundingMode.HALF_UP)
 
-fun Double.isLegit(): Boolean = !this.isNaN() && !this.isInfinite()
+    return when (this) {
+        is Double -> decimal.toDouble() as T
+        is Float -> decimal.toFloat() as T
+        is Int -> decimal.toInt() as T
+        is Long -> decimal.toLong() as T
+        is Short -> decimal.toShort() as T
+        is Byte -> decimal.toByte() as T
+        else -> throw IllegalArgumentException("Unsupported type to simplify: ${javaClass.name}")
+    }
+}
 
-fun Float.isLegit(): Boolean = !this.isNaN() && !this.isInfinite()
+fun Number.isLegit(): Boolean =
+    when (this) {
+        is Double -> !this.isNaN() && !this.isInfinite()
+        is Float -> !this.isNaN() && !this.isInfinite()
+        else -> true
+    }
 
-fun Double.requiresLegit(): Double = requireLegit(this, Double::isLegit) { "Double not legit: $it" }
+fun Number.isPositive(): Boolean = this.isLegit() && this.toDouble() > 0
 
-fun Float.requiresLegit(): Float = requireLegit(this, Float::isLegit) { "Float not legit: $it" }
+fun Number.isNonNegative(): Boolean = this.isLegit() && this.toDouble() >= 0
 
-fun Double.isPositive(): Boolean = this > 0
+inline fun <reified T : Number> T.requiresLegit(): T =
+    requireLegit(this, Number::isLegit) { "Number not legit: $it (Type: ${javaClass.name})" }
 
-fun Float.isPositive(): Boolean = this > 0
+inline fun <reified T : Number> T.requiresPositive(): T =
+    requireLegit(this, Number::isPositive) { "Number must be positive: $it (Type: ${javaClass.name})" }
 
-fun Double.requiresPositive(): Double = requireLegit(this, Double::isPositive) { "Double must be positive: $it" }
-
-fun Float.requiresPositive(): Float = requireLegit(this, Float::isPositive) { "Float must be positive: $it" }
-
-fun Double.isNonNegative(): Boolean = this >= 0
-
-fun Float.isNonNegative(): Boolean = this >= 0
-
-fun Double.requiresNonNegative(): Double = requireLegit(this, Double::isNonNegative) { "Double must be non-negative: $it" }
-
-fun Float.requiresNonNegative(): Float = requireLegit(this, Float::isNonNegative) { "Float must be non-negative: $it" }
+inline fun <reified T : Number> T.requiresNonNegative(): T =
+    requireLegit(this, Number::isNonNegative) { "Number must be non-negative: $it (Type: ${javaClass.name})" }
