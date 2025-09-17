@@ -10,6 +10,7 @@ def serverFolder = 'D:/Server/PaperDebug'
 def libsFolder = serverFolder + '/libraries'
 def versionsFolder = serverFolder + '/versions'
 def pluginsFolder = serverFolder + '/plugins'
+def pluginsDepFolder = serverFolder + '/plugins_dep'
 
 repositories {
     mavenCentral()
@@ -40,8 +41,17 @@ tasks.register('deployPlugin', Copy) {
     rename { project.name + '.jar' }
 }
 
+tasks.register('deployAsDependency', Copy) {
+    dependsOn jar
+
+    from tasks.jar.getArchiveFile()
+    into pluginsDepFolder
+    rename { project.name + '.jar' }
+}
+
 tasks.build {
     dependsOn tasks.named('deployPlugin')
+    dependsOn tasks.named('deployAsDependency')
 }
 
 processResources {
