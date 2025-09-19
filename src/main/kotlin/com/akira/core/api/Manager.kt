@@ -18,6 +18,8 @@ abstract class Manager<K, E> {
 
     fun get(key: K): E? = map[key]
 
+    fun get(key: K, default: () -> E): E = map[key] ?: default()
+
     fun get(key: K, default: E): E = map[key] ?: default
 
     fun getNonNull(key: K): E = requireNotNull(map[key]) { "Nothing found for Key: $key" }
