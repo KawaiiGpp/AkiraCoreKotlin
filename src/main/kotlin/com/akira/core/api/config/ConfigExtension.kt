@@ -12,5 +12,5 @@ fun YamlConfiguration.getWorld(path: String): World? {
 
 fun YamlConfiguration.getLocationList(path: String): List<Location>? {
     val section = this.getConfigurationSection(path) ?: return null
-    return section.getKeys(false).mapNotNull(this::getLocation)
+    return section.getKeys(false).mapNotNull(section::getLocation)
 }
