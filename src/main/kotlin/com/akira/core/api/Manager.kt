@@ -4,12 +4,12 @@ abstract class Manager<K, E> {
     protected val map: MutableMap<K, E> = HashMap()
     val container get() = map.toMap()
 
-    fun register(key: K, element: E) {
+    open fun register(key: K, element: E) {
         require(!this.isRegistered(key)) { "Key $key already registered." }
         map.put(key, element)
     }
 
-    fun unregister(key: K) {
+    open fun unregister(key: K) {
         require(this.isRegistered(key)) { "Key $key not registered." }
         map.remove(key)
     }
