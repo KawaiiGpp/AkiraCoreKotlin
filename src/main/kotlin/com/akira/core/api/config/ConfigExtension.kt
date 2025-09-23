@@ -3,14 +3,20 @@ package com.akira.core.api.config
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
-import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.configuration.ConfigurationSection
 
-fun YamlConfiguration.getWorld(path: String): World? {
+fun ConfigurationSection.getWorld(path: String): World? {
     val name = this.getString(path) ?: return null
     return Bukkit.getWorld(name)
 }
 
-fun YamlConfiguration.getLocationList(path: String): List<Location>? {
+fun ConfigurationSection.getLocationList(path: String): List<Location>? {
     val section = this.getConfigurationSection(path) ?: return null
     return section.getKeys(false).mapNotNull(section::getLocation)
 }
+
+fun <T : Any> ConfigurationSection.getSerializable(path: String, serializer: ConfigSerializer<T>): T? =
+    this.getConfigurationSection(path)?.let { serializer.deserialize(it) }
+
+fun <T : Any> ConfigurationSection.setSerializable(path: String, value: T, serializer: ConfigSerializer<T>) =
+    serializer.serialize(value, this.getConfigurationSection(path) ?: createSection(path))
