@@ -33,3 +33,11 @@ fun deserializeLocation(raw: String): Location {
         throw IllegalArgumentException("Failed parsing raw location: $raw", exception)
     }
 }
+
+fun deserializeLocationNullable(raw: String): Location? {
+    return try {
+        deserializeLocation(raw)
+    } catch (exception: Exception) {
+        null
+    }
+}
