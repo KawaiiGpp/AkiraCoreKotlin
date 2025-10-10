@@ -20,3 +20,5 @@ fun <T : Any> ConfigurationSection.getSerializable(path: String, serializer: Con
 
 fun <T : Any> ConfigurationSection.setSerializable(path: String, value: T, serializer: ConfigSerializer<T>) =
     serializer.serialize(value, this.getConfigurationSection(path) ?: createSection(path))
+
+fun ConfigurationSection.clear() = this.getKeys(false).forEach { this.set(it, null) }
