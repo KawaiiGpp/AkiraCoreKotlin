@@ -14,8 +14,9 @@ fun fetchPlayerUniqueId(
 ) {
     val scheduler = Bukkit.getScheduler()
 
-    fun runSync(runnable: Runnable) =
+    fun runSync(runnable: Runnable) {
         scheduler.runTask(plugin, runnable)
+    }
 
     scheduler.runTaskAsynchronously(plugin, Runnable {
         runCatching {

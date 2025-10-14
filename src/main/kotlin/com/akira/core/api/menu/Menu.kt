@@ -16,15 +16,21 @@ abstract class Menu(val rows: Int) : InventoryHolder {
         require(rows > 0 && rows <= 6) { "Menu rows must be 1 ~ 6: $rows" }
     }
 
-    fun click(player: Player, slot: Int) = container[ensureSlot(slot)]?.click(player)
+    fun click(player: Player, slot: Int) {
+        container[ensureSlot(slot)]?.click(player)
+    }
 
     fun hasItem(slot: Int): Boolean = container.containsKey(ensureSlot(slot))
 
     fun getItem(slot: Int): MenuItem? = container[ensureSlot(slot)]
 
-    fun setItem(slot: Int, item: MenuItem) = container.put(ensureSlot(slot), item)
+    fun setItem(slot: Int, item: MenuItem) {
+        container.put(ensureSlot(slot), item)
+    }
 
-    fun open(player: Player) = player.openInventory(createInventory(player))
+    fun open(player: Player) {
+        player.openInventory(createInventory(player))
+    }
 
     fun createInventory(player: Player): Inventory {
         val title = this.generateTitle(player).toComponent()

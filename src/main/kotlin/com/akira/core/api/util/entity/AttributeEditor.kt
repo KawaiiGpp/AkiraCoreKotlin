@@ -23,8 +23,9 @@ class AttributeEditor(
     fun remove(name: String) =
         instance.removeModifier(requireNotNull(this.get(name)) { "Modifier $name doesn't exist." })
 
-    fun removeIfExisting(name: String) =
+    fun removeIfExisting(name: String) {
         this.get(name)?.let { instance.removeModifier(it) }
+    }
 
     fun get(name: String): AttributeModifier? =
         instance.modifiers.firstOrNull { it.uniqueId == specifyUniqueId(name, namespace) }

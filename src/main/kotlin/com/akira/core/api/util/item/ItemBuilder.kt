@@ -19,13 +19,19 @@ class ItemBuilder {
 
     fun addLores(vararg lines: String) = lines.forEach(this.lore::add)
 
-    fun addLore(line: String) = lore.add(line)
+    fun addLore(line: String) {
+        lore.add(line)
+    }
 
     fun addFlags(vararg flags: ItemFlag) = flags.forEach(this.flags::add)
 
-    fun addFlag(flag: ItemFlag) = flags.add(flag)
+    fun addFlag(flag: ItemFlag) {
+        flags.add(flag)
+    }
 
-    fun addEnchant(ench: Enchantment, level: Int) = enchantments.add(ench to level)
+    fun addEnchant(ench: Enchantment, level: Int) {
+        enchantments.add(ench to level)
+    }
 
     fun build(): ItemStack {
         val material = this.material
