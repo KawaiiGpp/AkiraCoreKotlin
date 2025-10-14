@@ -35,7 +35,7 @@ abstract class ConfigFile(
         val stream = plugin.getResource("$templatePath/$fullName")
         requireNotNull(stream) { "Cannot find the template for $name at $templatePath." }
 
-        BufferedReader(InputStreamReader(stream)).use {
+        BufferedReader(InputStreamReader(stream, Charsets.UTF_8)).use {
             config.addDefaults(YamlConfiguration.loadConfiguration(it))
             config.options().copyDefaults(true)
         }
