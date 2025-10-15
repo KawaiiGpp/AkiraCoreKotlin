@@ -15,7 +15,7 @@ fun fetchHttp(
     var connection: HttpURLConnection? = null
 
     fun read(stream: InputStream) =
-        BufferedReader(InputStreamReader(stream, encoding)).readText()
+        BufferedReader(InputStreamReader(stream, encoding)).use { it.readText() }
 
     try {
         connection = URL(url).openConnection() as HttpURLConnection
