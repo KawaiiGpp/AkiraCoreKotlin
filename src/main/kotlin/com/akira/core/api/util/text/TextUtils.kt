@@ -8,9 +8,11 @@ import java.text.DecimalFormat
 
 val globalDecimalFormat = DecimalFormat("#,##0.##")
 
-fun debug(content: Any?) {
-    Bukkit.broadcast(content.toString().toComponent())
-}
+fun debug(content: Any?) =
+    content.toString().toComponent().let {
+        Bukkit.broadcast(it)
+        Bukkit.getConsoleSender().sendMessage(it)
+    }
 
 fun generateLine(length: Int): String = buildString { repeat(length) { append('▬') } }
 
