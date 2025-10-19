@@ -22,3 +22,6 @@ fun <T : Any> ConfigurationSection.setSerializable(path: String, value: T, seria
     serializer.serialize(value, this.getConfigurationSection(path) ?: createSection(path))
 
 fun ConfigurationSection.clear() = this.getKeys(false).forEach { this.set(it, null) }
+
+fun ConfigurationSection.getNonNullSection(path: String) =
+    requireNotNull(this.getConfigurationSection(path)) { "Section $path not existing." }
