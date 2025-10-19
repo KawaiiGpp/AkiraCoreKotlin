@@ -25,3 +25,5 @@ fun ConfigurationSection.clear() = this.getKeys(false).forEach { this.set(it, nu
 
 fun ConfigurationSection.getNonNullSection(path: String) =
     requireNotNull(this.getConfigurationSection(path)) { "Section $path not existing." }
+
+fun ConfigurationSection.getOrCreate(path: String) = this.getConfigurationSection(path) ?: createSection(path)
