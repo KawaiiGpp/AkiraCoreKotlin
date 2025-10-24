@@ -3,6 +3,7 @@ package com.akira.core.api.util.math
 import com.akira.core.api.util.general.requireLegit
 import java.math.BigDecimal
 import java.math.RoundingMode
+import kotlin.math.roundToLong
 
 inline fun <reified T : Number> T.simplify(decimalAmount: Int): T {
     this.requiresLegit()
@@ -19,6 +20,15 @@ inline fun <reified T : Number> T.simplify(decimalAmount: Int): T {
         is Short -> decimal.toShort() as T
         is Byte -> decimal.toByte() as T
         else -> throw IllegalArgumentException("Unsupported type to simplify: ${javaClass.name}")
+    }
+}
+
+fun <T : Number> T.format(decimalAmount: Int = 2): String {
+    decimalAmount.requiresNonNegative()
+
+    return this.toDouble().let {
+        if (decimalAmount == 0) "%,d".format(it.roundToLong())
+        else "%,.${decimalAmount}f".format(it)
     }
 }
 
