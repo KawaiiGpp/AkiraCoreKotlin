@@ -18,6 +18,9 @@ class ItemTagEditor(
     fun <T : Any> get(key: String, type: PersistentDataType<*, T>, default: T): T =
         data.getOrDefault(createKey(key), type, default)
 
+    fun <T : Any> getNonNull(key: String, type: PersistentDataType<*, T>): T =
+        requireNotNull(this.get(key, type)) { "Item tag with key $key (for $type) not found." }
+
     fun <T : Any> set(key: String, type: PersistentDataType<*, T>, value: T) =
         data.set(createKey(key), type, value)
 
