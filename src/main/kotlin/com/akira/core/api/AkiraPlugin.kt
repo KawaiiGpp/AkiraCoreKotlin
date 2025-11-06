@@ -9,10 +9,8 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AkiraPlugin : JavaPlugin() {
-    val taskMaster get() = TaskMaster(this)
-
     override fun onEnable() {
-        val version = pluginMeta.version;
+        val version = pluginMeta.version
         val authors = pluginMeta.authors.joinToString()
 
         logInfo("插件 $name 已成功启用。")
