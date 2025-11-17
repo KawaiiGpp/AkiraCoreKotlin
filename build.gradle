@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.akira'
-version = '1.3.6'
+version = '1.3.7'
 
 def serverFolder = 'D:/Server/PaperDebug'
 def libsFolder = serverFolder + '/libraries'
@@ -50,8 +50,8 @@ tasks.register('deployAsDependency', Copy) {
 }
 
 tasks.build {
-    dependsOn tasks.named('deployPlugin')
-    dependsOn tasks.named('deployAsDependency')
+    dependsOn tasks.deployPlugin
+    dependsOn tasks.deployAsDependency
 }
 
 processResources {
