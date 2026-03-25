@@ -5,7 +5,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import java.nio.charset.Charset
 
 fun fetchHttp(
@@ -18,7 +18,8 @@ fun fetchHttp(
         BufferedReader(InputStreamReader(stream, encoding)).use { it.readText() }
 
     try {
-        connection = URL(url).openConnection() as HttpURLConnection
+        val url = URI(url).toURL()
+        connection = url.openConnection() as HttpURLConnection
 
         connection.requestMethod = "GET"
         connection.connectTimeout = timeout
