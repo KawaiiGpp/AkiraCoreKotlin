@@ -2,6 +2,8 @@ package com.akira.core.api.util.entity
 
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeInstance
+import org.bukkit.damage.DamageSource
+import org.bukkit.damage.DamageType
 import org.bukkit.entity.LivingEntity
 
 fun LivingEntity.getBaseMaxHealth(): Double =
@@ -20,3 +22,7 @@ fun LivingEntity.resetMaxHealthModifiers() {
 
 fun LivingEntity.getNonNullAttribute(attribute: Attribute): AttributeInstance =
     requireNotNull(this.getAttribute(attribute)) { "Attribute not supported for $type" }
+
+fun LivingEntity.dealTrueDamage(damage: Double) {
+    this.damage(damage, DamageSource.builder(DamageType.OUT_OF_WORLD).build())
+}
