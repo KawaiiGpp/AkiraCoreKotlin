@@ -1,7 +1,9 @@
 package com.akira.core.api.util.general
 
+import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier
+import kotlin.math.min
 
 fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
     val list = map {
@@ -24,18 +26,21 @@ fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
 @Suppress("DEPRECATION")
 fun EntityDamageEvent.enableTrueDamage() {
     val whitelist = setOf(DamageModifier.BASE, DamageModifier.ABSORPTION)
+    val reflect = this.reflect
+    fun predicate(entry: Map.Entry<DamageModifier, *>) = entry.key in whitelist
 
-    fun filter(fieldName: String) {
-        val clz = EntityDamageEvent::class.java
-        val field = clz.getDeclaredField(fieldName)
+    reflect.originals.entries.retainAll { predicate(it) }
 
-        field.isAccessible = true
-        val map = field.get(this) as MutableMap<*, *>
+    val modifiers = reflect.modifiers
+    val functions = reflect.modifierFunctions
+    val entity = this.entity
 
-        map.entries.retainAll { whitelist.contains(it.key) }
-    }
+    modifiers.entries.retainAll { predicate(it) }
+    functions.entries.retainAll { predicate(it) }
 
-    filter("modifiers")
-    filter("modifierFunctions")
-    filter("originals")
+    if (entity !is LivingEntity) return
+    if (!this.isApplicable(DamageModifier.ABSORPTION)) return
+
+    modifiers[DamageModifier.ABSORPTION] = -min(entity.absorptionAmount, damage)
+    functions[DamageModifier.ABSORPTION] = { 0.0 }
 }
