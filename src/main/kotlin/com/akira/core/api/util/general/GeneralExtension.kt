@@ -1,5 +1,8 @@
 package com.akira.core.api.util.general
 
+import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier
+
 fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
     val list = map {
         it to transform(it)
@@ -16,4 +19,21 @@ fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
     }
 
     throw UnsupportedOperationException("Unreachable code executed.")
+}
+
+fun EntityDamageEvent.enableTrueDamage() {
+    @Suppress("DEPRECATION")
+    fun filter(fieldName: String) {
+        val clz = EntityDamageEvent::class.java
+        val field = clz.getDeclaredField(fieldName)
+
+        field.isAccessible = true
+        val map = field.get(this) as MutableMap<*, *>
+
+        map.entries.removeIf { it.key != DamageModifier.BASE }
+    }
+
+    filter("modifiers")
+    filter("modifierFunctions")
+    filter("originals")
 }
