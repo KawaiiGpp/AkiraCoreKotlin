@@ -21,8 +21,10 @@ fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
     throw UnsupportedOperationException("Unreachable code executed.")
 }
 
+@Suppress("DEPRECATION")
 fun EntityDamageEvent.enableTrueDamage() {
-    @Suppress("DEPRECATION")
+    val whitelist = setOf(DamageModifier.BASE, DamageModifier.ABSORPTION)
+
     fun filter(fieldName: String) {
         val clz = EntityDamageEvent::class.java
         val field = clz.getDeclaredField(fieldName)
@@ -30,7 +32,7 @@ fun EntityDamageEvent.enableTrueDamage() {
         field.isAccessible = true
         val map = field.get(this) as MutableMap<*, *>
 
-        map.entries.removeIf { it.key != DamageModifier.BASE }
+        map.entries.retainAll { whitelist.contains(it.key) }
     }
 
     filter("modifiers")
