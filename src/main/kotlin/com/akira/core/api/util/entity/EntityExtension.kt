@@ -1,5 +1,6 @@
 package com.akira.core.api.util.entity
 
+import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeInstance
 import org.bukkit.damage.DamageSource
@@ -26,3 +27,5 @@ fun LivingEntity.getNonNullAttribute(attribute: Attribute): AttributeInstance =
 fun LivingEntity.dealTrueDamage(damage: Double) {
     this.damage(damage, DamageSource.builder(DamageType.OUT_OF_WORLD).build())
 }
+
+val LivingEntity.isShieldRaised get() = isHandRaised && activeItem.type == Material.SHIELD
