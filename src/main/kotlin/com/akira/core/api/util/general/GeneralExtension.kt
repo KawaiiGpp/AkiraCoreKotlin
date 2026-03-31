@@ -1,5 +1,6 @@
 package com.akira.core.api.util.general
 
+import com.google.common.base.Function
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier
@@ -42,5 +43,5 @@ fun EntityDamageEvent.enableTrueDamage() {
     if (!this.isApplicable(DamageModifier.ABSORPTION)) return
 
     modifiers[DamageModifier.ABSORPTION] = -min(entity.absorptionAmount, damage)
-    functions[DamageModifier.ABSORPTION] = { 0.0 }
+    functions[DamageModifier.ABSORPTION] = Function { 0.0 }
 }
