@@ -1,6 +1,5 @@
 package com.akira.core.api.util.general
 
-import com.google.common.base.Function
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier
@@ -25,23 +24,17 @@ fun <T> Iterable<T>.randomWeighted(transform: (T) -> Int): T {
 }
 
 @Suppress("DEPRECATION")
-fun EntityDamageEvent.enableTrueDamage() {
-    val whitelist = setOf(DamageModifier.BASE, DamageModifier.ABSORPTION)
-    val reflect = this.reflect
-    fun predicate(entry: Map.Entry<DamageModifier, *>) = entry.key in whitelist
+fun EntityDamageEvent.bypassVanillaModifiers(bypassAbsorption: Boolean = false) {
+    val modifiers = DamageModifier.entries
+        .filter { it != DamageModifier.BASE }
+        .filter { this.isApplicable(it) }
 
-    reflect.originals.entries.retainAll { predicate(it) }
-
-    val modifiers = reflect.modifiers
-    val functions = reflect.modifierFunctions
-    val entity = this.entity
-
-    modifiers.entries.retainAll { predicate(it) }
-    functions.entries.retainAll { predicate(it) }
-
-    if (entity !is LivingEntity) return
-    if (!this.isApplicable(DamageModifier.ABSORPTION)) return
-
-    modifiers[DamageModifier.ABSORPTION] = -min(entity.absorptionAmount, damage)
-    functions[DamageModifier.ABSORPTION] = Function { 0.0 }
+    for (modifier in modifiers) {
+        if (modifier == DamageModifier.ABSORPTION && !bypassAbsorption) {
+            val entity = this.entity as? LivingEntity
+            entity?.let { setDamage(modifier, -min(it.absorptionAmount, damage)) }
+        } else {
+            this.setDamage(modifier, 0.0)
+        }
+    }
 }
