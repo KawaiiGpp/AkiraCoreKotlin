@@ -15,6 +15,9 @@ class AttributeEditor(
         get() = instance.baseValue
         set(value) = value.let { instance.baseValue = it }
 
+    val value get() = instance.value
+    val defaultValue get() = instance.defaultValue
+
     fun add(name: String, value: Double, operation: Operation = Operation.ADD_NUMBER) {
         this.removeIfExisting(name)
         instance.addModifier(AttributeModifier(specifyUniqueId(name, namespace), name, value, operation))
