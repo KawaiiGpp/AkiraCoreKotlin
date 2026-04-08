@@ -1,8 +1,11 @@
 package com.akira.core.api.util.world
 
+import com.akira.core.api.util.general.specifyUniqueId
 import com.akira.core.api.util.math.requiresLegit
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.attribute.AttributeModifier
+import org.bukkit.attribute.AttributeModifier.Operation
 
 fun serializeLocation(target: Location): String =
     "${target.worldNonNull.name}~${target.x},${target.y},${target.z}~${target.yaw},${target.pitch}"
@@ -41,3 +44,10 @@ fun deserializeLocationNullable(raw: String): Location? {
         null
     }
 }
+
+fun specifyAttributeModifier(
+    name: String,
+    value: Double = 0.0,
+    operation: Operation = Operation.ADD_NUMBER,
+    namespace: String? = null
+) = AttributeModifier(specifyUniqueId(name, namespace), name, value, operation)
