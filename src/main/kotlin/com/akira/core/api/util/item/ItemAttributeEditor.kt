@@ -5,6 +5,7 @@ import com.akira.core.api.util.world.specifyAttributeModifier
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.attribute.AttributeModifier.Operation
+import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
 class ItemAttributeEditor(
@@ -33,4 +34,6 @@ class ItemAttributeEditor(
         this.remove(name)
         meta.addAttributeModifier(attribute, modifier)
     }
+
+    fun apply(item: ItemStack) = meta.let { item.itemMeta = it }
 }
