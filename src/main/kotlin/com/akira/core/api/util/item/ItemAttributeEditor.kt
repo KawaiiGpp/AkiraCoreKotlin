@@ -1,5 +1,6 @@
 package com.akira.core.api.util.item
 
+import com.akira.core.api.AkiraPlugin
 import com.akira.core.api.util.general.specifyUniqueId
 import com.akira.core.api.util.world.specifyAttributeModifier
 import org.bukkit.attribute.Attribute
@@ -15,8 +16,8 @@ class ItemAttributeEditor(
 ) {
     private val modifiers: Collection<AttributeModifier>
         get() {
-            val map = meta.attributeModifiers
-            requireNotNull(map) { "Item meta doesn't have any attribute modifiers." }
+            val errorMsg = "Attribute modifiers not supported by this item meta."
+            val map = meta.attributeModifiers ?: throw NullPointerException(errorMsg)
 
             return map[attribute]
         }
@@ -36,4 +37,14 @@ class ItemAttributeEditor(
     }
 
     fun apply(item: ItemStack) = meta.let { item.itemMeta = it }
+
+    companion object {
+        fun forItemMeta(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin): ItemAttributeEditor {
+            val meta = requireValidMeta(item)
+            val map = meta.attributeModifiers
+
+            requireNotNull(map) { "This item (type=${item.type}) doesn't support attribute modifiers." }
+            return ItemAttributeEditor(meta, attribute, plugin.name)
+        }
+    }
 }
