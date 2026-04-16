@@ -16,7 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta
  *
  * @property meta 编辑对象
  * @property attribute 编辑属性类型
- * @property namespace 命名空间，用于生成修饰符的UUID
+ * @property namespace 命名空间，用于生成修饰符的 `UUID`
  */
 class ItemAttributeEditor(
     private val meta: ItemMeta,
@@ -24,16 +24,16 @@ class ItemAttributeEditor(
     private val namespace: String?
 ) {
     /**
-     * 获取 [ItemMeta.attributeModifiers]，若为null则返回一个空列表。
+     * 获取 [ItemMeta.attributeModifiers]，若为 `null` 则返回一个空列表。
      */
     private val modifiers: Collection<AttributeModifier>
         get() = meta.attributeModifiers?.let { it[attribute] } ?: listOf()
 
     /**
-     * 删除掉相应名称的UUID。
+     * 删除掉相应名称的 `UUID`。
      *
-     * @param name 用于结合 [namespace] 生成UUID的名称
-     * @return 若其存在则删除后返回true，否则返回false
+     * @param name 用于结合 [namespace] 生成 `UUID` 的名称
+     * @return 若其存在则删除后返回 `true`，否则返回 `false`
      */
     fun remove(name: String): Boolean {
         val filtered = modifiers.filter { it.uniqueId == specifyUniqueId(name, namespace) }
@@ -46,7 +46,7 @@ class ItemAttributeEditor(
     /**
      * 按名称设置一份修饰符，若已存在将覆盖。
      *
-     * @param name 用于结合 [namespace] 生成UUID的名称
+     * @param name 用于结合 [namespace] 生成 `UUID` 的名称
      * @param value 修饰值
      * @param operation 修饰方式
      */
@@ -60,8 +60,8 @@ class ItemAttributeEditor(
     /**
      * 按名称判断修饰符是否已存在。
      *
-     * @param name 用于结合 [namespace] 生成UUID的名称
-     * @return 若存在则返回true，否则返回false
+     * @param name 用于结合 [namespace] 生成 `UUID` 的名称
+     * @return 若存在则返回 `true`，否则返回 `false`
      */
     fun contains(name: String): Boolean {
         return modifiers.any { it.uniqueId == specifyUniqueId(name, namespace) }
