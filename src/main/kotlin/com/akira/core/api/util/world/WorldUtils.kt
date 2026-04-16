@@ -1,53 +1,33 @@
 package com.akira.core.api.util.world
 
 import com.akira.core.api.util.general.specifyUniqueId
-import com.akira.core.api.util.math.requiresLegit
-import org.bukkit.Bukkit
-import org.bukkit.Location
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.attribute.AttributeModifier.Operation
+import org.bukkit.inventory.EquipmentSlotGroup
 
-fun serializeLocation(target: Location): String =
-    "${target.worldNonNull.name}~${target.x},${target.y},${target.z}~${target.yaw},${target.pitch}"
-
-fun deserializeLocation(raw: String): Location {
-    try {
-        val main = raw.split('~')
-        require(main.size == 3) { "Incorrect length: ${main.size}" }
-
-
-        val world = Bukkit.getWorld(main[0])
-        require(world != null) { "World ${main[0]} not found." }
-
-        val point = main[1].split(',')
-        require(point.size == 3) { "Incorrect XYZ section length: ${point.size}" }
-        val x = point[0].toDouble().requiresLegit()
-        val y = point[1].toDouble().requiresLegit()
-        val z = point[2].toDouble().requiresLegit()
-
-        val dir = main[2].split(',')
-        require(dir.size == 2) { "Incorrect direction section length: ${dir.size}" }
-        val yaw = dir[0].toFloat().requiresLegit()
-        val pitch = dir[1].toFloat().requiresLegit()
-
-
-        return Location(world, x, y, z, yaw, pitch)
-    } catch (exception: Throwable) {
-        throw IllegalArgumentException("Failed parsing raw location: $raw", exception)
-    }
-}
-
-fun deserializeLocationNullable(raw: String): Location? {
-    return try {
-        deserializeLocation(raw)
-    } catch (exception: Exception) {
-        null
-    }
-}
-
+/**
+ * 新建一个被指定 `UUID` 的属性修饰符。
+ *
+ * 保持可控的 `UUID`，
+ * 方便后续根据 `UUID` 进行追踪与识别。
+ *
+ * 内部调用 [specifyUniqueId]，
+ * 用于通过 [name] 与 [namespace] 生成 `UUID`
+ *
+ * @param name 修饰符名称
+ * @param namespace 命名空间，默认为 `null`
+ * @param value 修饰符值，默认为 `0`
+ * @param operation 修饰符行为，默认为 [Operation.ADD_NUMBER]
+ * @param slot 修饰符应用槽位，默认为 [EquipmentSlotGroup.ANY]
+ * @see specifyUniqueId
+ */
 fun specifyAttributeModifier(
     name: String,
+    namespace: String? = null,
     value: Double = 0.0,
     operation: Operation = Operation.ADD_NUMBER,
-    namespace: String? = null
-) = AttributeModifier(specifyUniqueId(name, namespace), name, value, operation)
+    slot: EquipmentSlotGroup = EquipmentSlotGroup.ANY
+) = AttributeModifier(
+    specifyUniqueId(name, namespace),
+    name, value, operation, slot
+)

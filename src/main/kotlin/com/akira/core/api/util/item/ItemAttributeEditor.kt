@@ -6,6 +6,7 @@ import com.akira.core.api.util.world.specifyAttributeModifier
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.attribute.AttributeModifier.Operation
+import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
@@ -30,7 +31,7 @@ class ItemAttributeEditor(
         get() = meta.attributeModifiers?.let { it[attribute] } ?: listOf()
 
     /**
-     * 删除掉相应名称的 `UUID`。
+     * 根据名称推断出 `UUID`，并删除 `UUID` 符合的修饰符。
      *
      * @param name 用于结合 [namespace] 生成 `UUID` 的名称
      * @return 若其存在则删除后返回 `true`，否则返回 `false`
@@ -47,11 +48,15 @@ class ItemAttributeEditor(
      * 按名称设置一份修饰符，若已存在将覆盖。
      *
      * @param name 用于结合 [namespace] 生成 `UUID` 的名称
-     * @param value 修饰值
-     * @param operation 修饰方式
+     * @param value 修饰符值
+     * @param operation 修饰符行为
+     * @param slot 生效槽位，默认为 [EquipmentSlotGroup.ANY]
      */
-    fun set(name: String, value: Double, operation: Operation) {
-        val modifier = specifyAttributeModifier(name, value, operation, namespace)
+    fun set(
+        name: String, value: Double, operation: Operation,
+        slot: EquipmentSlotGroup = EquipmentSlotGroup.ANY
+    ) {
+        val modifier = specifyAttributeModifier(name, namespace, value, operation, slot)
 
         this.remove(name)
         meta.addAttributeModifier(attribute, modifier)
