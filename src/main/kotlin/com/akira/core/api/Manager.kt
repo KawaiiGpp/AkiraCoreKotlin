@@ -56,7 +56,7 @@ abstract class Manager<K, E> {
      * 判断该键是否已被注册。
      *
      * @param key 键
-     * @return 若已注册返回true，否则返回false
+     * @return 若已注册返回 `true`，否则返回 `false`
      */
     fun isRegistered(key: K): Boolean = map.containsKey(key)
 
@@ -64,7 +64,7 @@ abstract class Manager<K, E> {
      * 根据键获取对应的元素。
      *
      * @param key 键
-     * @return 若键存在则返回对应元素，否则返回null
+     * @return 若键存在则返回对应元素，否则返回 `null`
      */
     fun get(key: K): E? = map[key]
 
