@@ -1,5 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import io.papermc.paperweight.tasks.RemapJar
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
 
 plugins {
     `maven-publish`
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.20.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
@@ -40,12 +40,10 @@ publishing {
     }
 }
 
-tasks.assemble { dependsOn("reobfJar") }
-
 tasks.register<Copy>("deployPlugin") {
-    dependsOn("reobfJar")
+    dependsOn("shadowJar")
 
-    from(tasks.named<RemapJar>("reobfJar").flatMap { it.outputJar })
+    from(tasks.named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
     into(pluginFolder)
     rename { "${project.name}.jar" }
 }
@@ -62,3 +60,5 @@ tasks.withType<ProcessResources> {
 tasks.withType<Test> { useJUnitPlatform() }
 
 kotlin { jvmToolchain(21) }
+
+paperweight { reobfArtifactConfiguration = ReobfArtifactConfiguration.MOJANG_PRODUCTION }
