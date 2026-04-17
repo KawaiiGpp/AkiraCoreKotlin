@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
  *
  * @property type 声音类型
  * @property pitch 声调。范围 `0.5-2.0`
- * @property volume 音量。范围 `0.0-1.0`，`>1.0` 时，可听见的范围将会增加，距离更远也能听见。
+ * @property volume 音量。范围 `0.0-1.0`，`>1.0` 时，可听见的范围将会增加，距离更远也能听见
  */
 data class SoundPack(
     val type: Sound,
