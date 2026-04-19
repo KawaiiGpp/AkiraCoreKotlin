@@ -2,8 +2,7 @@ package com.akira.core.api.util.general
 
 import java.util.*
 import kotlin.enums.enumEntries
-
-val globalRandom = Random()
+import kotlin.random.Random
 
 /**
  * 通过字符串生成一个确定的 [UUID] 对象。
@@ -51,7 +50,7 @@ fun separateUniqueId(raw: String): String {
  */
 fun rollChance(chance: Int): Boolean {
     require(chance in 0..100) { "Chance out of range [0, 100]: $chance" }
-    return globalRandom.nextInt(100) < chance
+    return Random.nextInt(100) < chance
 }
 
 /**
@@ -63,7 +62,27 @@ fun rollChance(chance: Int): Boolean {
  */
 fun rollChance(chance: Double): Boolean {
     require(chance in 0.0..1.0) { "Chance out of range [0.0, 1.0]: $chance" }
-    return globalRandom.nextDouble() < chance
+    return Random.nextDouble() < chance
+}
+
+/**
+ * 校验 [value] 是否合法。
+ *
+ * 若通过校验，则返回原值，否则抛出 [IllegalArgumentException]。
+ *
+ * @param value 待校验的值
+ * @param predicate 校验逻辑
+ * @param message 错误提示逻辑，传入 [value] 作为参数
+ * @return 校验通过后返回的 [value] 原值
+ * @throws IllegalArgumentException 当校验不通过时抛出
+ */
+inline fun <T> requireLegit(
+    value: T,
+    predicate: (T) -> Boolean,
+    message: (T) -> String = { "Value not legit: $it" }
+): T {
+    require(predicate(value)) { message(value) }
+    return value
 }
 
 /**
@@ -75,28 +94,3 @@ fun rollChance(chance: Double): Boolean {
  */
 inline fun <reified T : Enum<T>> nullableEnumOf(name: String): T? =
     enumEntries<T>().firstOrNull { it.name == name }
-
-fun <T> randomSublist(list: List<T>, amount: Int): List<T> {
-    require(list.isNotEmpty()) { "Cannot get sublist from an empty collection." }
-    require(amount <= list.size) { "Sublist's size ($amount) > original list's size (${list.size})." }
-
-    return list.shuffled(globalRandom).take(amount)
-}
-
-fun <T> randomWeightedSublist(list: List<T>, amount: Int, transform: (T) -> Int): List<T> {
-    require(list.isNotEmpty()) { "Cannot get sublists from an empty collection." }
-    require(amount <= list.size) { "The amount required > the actual size of the list." }
-
-    val copy = list.toMutableList()
-    val result = mutableListOf<T>()
-    repeat(amount) {
-        copy.randomWeighted(transform)
-            .also { result.add(it) }
-            .also { copy.remove(it) }
-    }
-
-    return result
-}
-
-fun <T> requireLegit(value: T, predicate: (T) -> Boolean, message: ((T) -> String)? = null): T =
-    requireNotNull(value.takeIf(predicate)) { message?.invoke(value) ?: "Value not legit: $value" }
