@@ -7,7 +7,6 @@ import org.bukkit.World
 /**
  * 获取一个已通过空检查的 [Location.world]。
  *
- * @return 当前 [Location] 所属的、非空的世界实例
  * @throws NullPointerException 当前 [Location] 对象未定义所属世界
  */
 val Location.requiredWorld: World

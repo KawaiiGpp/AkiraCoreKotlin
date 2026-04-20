@@ -28,8 +28,6 @@ class Cooldown(val plugin: AkiraPlugin) {
 
     /**
      * 指示当前实例是否处于冷却状态。
-     *
-     * @return 返回 `true` 即冷却中，`false` 即未在冷却
      */
     val inCooldown get() = bukkitTask != null
 

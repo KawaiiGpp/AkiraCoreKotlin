@@ -19,8 +19,6 @@ abstract class Manager<K, E> {
 
     /**
      * 获取内部映射表的只读视图。
-     *
-     * @return 映射表只读视图
      */
     val container: Map<K, E> get() = Collections.unmodifiableMap(map)
 
