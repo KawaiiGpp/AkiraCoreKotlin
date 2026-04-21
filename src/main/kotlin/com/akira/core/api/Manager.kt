@@ -6,10 +6,10 @@ import java.util.*
  * 注册管理器
  *
  * 内部维护一份映射表，用于统一对元素进行注册、卸载和获取。
- * 实现基于 [HashMap]，注意线程问题。
+ * 基于 [HashMap]，需注意线程问题。
  *
- * * 使用方式：继承本类，定义键值类型以便明确具体用途。
- * * 进阶用法：可通过覆写扩展 [register]、[unregister]、[clear] 的功能。
+ * - 使用：继承本类，定义键值类型以便明确用途
+ * - 进阶使用：可通过覆写扩展 [register]、[unregister]、[clear] 的功能
  *
  * @param K 注册键的类型
  * @param E 被管理元素的类型
@@ -18,7 +18,7 @@ abstract class Manager<K, E> {
     protected val map: MutableMap<K, E> = HashMap()
 
     /**
-     * 获取内部映射表的只读视图。
+     * 内部映射表的只读视图
      */
     val container: Map<K, E> get() = Collections.unmodifiableMap(map)
 

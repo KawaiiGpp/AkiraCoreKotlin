@@ -8,9 +8,6 @@ import org.bukkit.entity.Player
 /**
  * 声音预设包
  *
- * 整合原版五花八门的声音播放方法，
- * 实现一次定义，到处播放。
- *
  * @property type 声音类型
  * @property pitch 声调。范围 `0.5-2.0`
  * @property volume 音量。范围 `0.0-1.0`，`>1.0` 时，可听见的范围将会增加，距离更远也能听见

@@ -13,9 +13,7 @@ import org.bukkit.metadata.Metadatable
  * - 获取实体的元数据
  * - 设置或删除实体的元数据
  *
- * 根据 `Metadata API` 的特性，
- * 每个插件拥有其独立的元数据的储存空间，
- * 无需担心插件之间同路径元数据的冲突。
+ * 每个插件有独立储存空间，不存在插件间路径冲突。
  *
  * @property plugin 所属插件
  * @property owner 编辑对象
@@ -34,7 +32,7 @@ class MetadataEditor(private val plugin: AkiraPlugin, private val owner: Metadat
      * 若该路径下已有元数据，将被静默覆盖。
      *
      * @param path 路径
-     * @param any 数据
+     * @param any 元数据值
      */
     fun set(path: String, any: Any) = owner.setMetadata(path, FixedMetadataValue(plugin, any))
 
@@ -42,7 +40,7 @@ class MetadataEditor(private val plugin: AkiraPlugin, private val owner: Metadat
      * 从实体身上获取元数据。
      *
      * @param path 路径
-     * @return 元数据
+     * @return 指定元数据
      */
     fun get(path: String): MetadataValue? = owner.getMetadata(path).firstOrNull { plugin == it.owningPlugin }
 

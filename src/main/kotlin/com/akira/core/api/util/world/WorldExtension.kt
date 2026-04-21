@@ -22,8 +22,8 @@ val Location.requiredWorld: World
  * 将位置实例简化为紧凑的单行字符串。
  *
  * 适用于轻量化存储或临时控制台输出。
- * * 格式：`世界`~`X,Y,Z`~`Yaw/Pitch`
- * * 注意：转换回 [Location] 需用 [String.toLocation]。
+ * - 格式：`世界`~`X,Y,Z`~`Yaw/Pitch`
+ * - 注意：转换回 [Location] 需用 [String.toLocation]
  *
  * 需确保 [Location.world] 不为 `null`，
  * 否则世界将保存为字符串的 `"null"`，且解析回 [Location] 时会失败。

@@ -7,9 +7,6 @@ import org.bukkit.entity.Player
 /**
  * 粒子效果预设包
  *
- * 整合各种原版播放粒子效果的方法，
- * 通过统一封装处理，实现一次定义到处播放。
- *
  * @param type 粒子类型
  * @param amount 粒子数量
  * @param offsetX X轴的偏移或扩散范围
@@ -30,7 +27,7 @@ data class ParticlePack(
     /**
      * 快捷创建一个粒子效果预设包。
      *
-     * 当你需要 `X/Y/Z` 三轴的偏移或扩散范围一致，
+     * 当需要 `X/Y/Z` 三轴偏移或扩散范围一致，
      * 可优先使用该构造方法。
      *
      * @param particle 粒子类型
