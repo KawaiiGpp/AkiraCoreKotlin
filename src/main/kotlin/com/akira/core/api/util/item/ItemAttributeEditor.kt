@@ -25,6 +25,23 @@ class ItemAttributeEditor(
     private val namespace: String?
 ) {
     /**
+     * 为一个物品实例创建属性编辑器。
+     *
+     * 自动获取并验证 [ItemStack.itemMeta]，
+     * 若不合法则抛出异常。
+     *
+     * 自动以 [AkiraPlugin.name] 为 [namespace]。
+     *
+     * @param item 编辑对象
+     * @param attribute 编辑属性类型
+     * @param plugin 插件实例
+     * @throws IllegalArgumentException 当物品实例不合法
+     * @see ItemAttributeEditor
+     */
+    constructor(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin)
+            : this(requireValidMeta(item), attribute, plugin.name)
+
+    /**
      * 获取 [ItemMeta.attributeModifiers]，若为 `null` 则返回一个空列表。
      */
     private val modifiers: Collection<AttributeModifier>
@@ -53,7 +70,9 @@ class ItemAttributeEditor(
      * @param slot 生效槽位，默认为 [EquipmentSlotGroup.ANY]
      */
     fun set(
-        name: String, value: Double, operation: Operation,
+        name: String,
+        value: Double,
+        operation: Operation,
         slot: EquipmentSlotGroup = EquipmentSlotGroup.ANY
     ) {
         val modifier = specifyAttributeModifier(name, namespace, value, operation, slot)
@@ -78,20 +97,4 @@ class ItemAttributeEditor(
      * @param item 物品实例
      */
     fun apply(item: ItemStack) = meta.let { item.itemMeta = it }
-
-    companion object {
-        /**
-         * 为一个物品实例创建属性编辑器。
-         *
-         * 该工厂方法自动获取 [ItemStack.itemMeta]，并结合 [AkiraPlugin.name] 创建属性编辑器。
-         *
-         * @param item 编辑对象
-         * @param attribute 编辑属性类型
-         * @param plugin 插件实例
-         * @return 创建好的属性编辑器实例
-         * @throws IllegalArgumentException 当物品实例不支持该操作
-         */
-        fun forItemMeta(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin) =
-            ItemAttributeEditor(requireValidMeta(item), attribute, plugin.name)
-    }
 }
