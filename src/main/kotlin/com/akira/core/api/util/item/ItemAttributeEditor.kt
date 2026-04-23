@@ -1,6 +1,7 @@
 package com.akira.core.api.util.item
 
 import com.akira.core.api.AkiraPlugin
+import com.akira.core.api.util.general.illegalArg
 import com.akira.core.api.util.general.specifyUniqueId
 import com.akira.core.api.util.world.specifyAttributeModifier
 import org.bukkit.attribute.Attribute
@@ -35,7 +36,6 @@ class ItemAttributeEditor(
      * @param attribute 编辑属性类型
      * @param plugin 所属插件
      * @throws IllegalArgumentException 当物品实例不合法
-     * @see ItemAttributeEditor
      */
     constructor(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin)
             : this(requireValidMeta(item), attribute, plugin.name)
@@ -91,9 +91,16 @@ class ItemAttributeEditor(
     }
 
     /**
-     * 应用更改后的 [ItemMeta] 到 [ItemStack]。
+     * 尝试应用更改后的 [ItemMeta] 到 [ItemStack]。
      *
      * @param item 物品实例
+     * @throws IllegalArgumentException 当 [ItemMeta] 不兼容该物品时
      */
-    fun apply(item: ItemStack) = meta.let { item.itemMeta = it }
+    fun apply(item: ItemStack) {
+        if (item.setItemMeta(meta)) return
+
+        val metaCls = meta.javaClass.simpleName
+        val type = item.type
+        illegalArg("Item meta ($metaCls) cannot be applied to this item (type=$type)")
+    }
 }

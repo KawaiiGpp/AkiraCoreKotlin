@@ -83,7 +83,6 @@ abstract class Manager<K, E> {
      * @throws NoSuchElementException 当键不存在时抛出
      */
     fun getOrThrow(key: K): E {
-        val message = "No element present for key: $key"
-        return map[key] ?: throw NoSuchElementException(message)
+        return map[key] ?: throw NoSuchElementException("No element present for key: $key")
     }
 }
