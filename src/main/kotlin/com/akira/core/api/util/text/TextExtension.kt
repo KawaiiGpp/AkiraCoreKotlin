@@ -6,6 +6,9 @@ import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 
+/**
+ * 将带 `§` 的旧式字符串解析为 [TextComponent]。
+ */
 fun String.toComponent(): TextComponent = LegacyComponentSerializer.legacySection().deserialize(this)
 
 fun Audience.sendLine(length: Int, color: TextColor) = sendMessage(generateLine(length, color))
