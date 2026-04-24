@@ -1,5 +1,6 @@
 package com.akira.core.api.util.world
 
+import com.akira.core.api.util.general.nullPointer
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -14,33 +15,23 @@ val Location.requiredWorld: World
         if (this.world != null) return this.world
 
         val xyz = "x=$x, y=$y, z=$z, yaw=$yaw, pitch=$pitch"
-        val message = "World not defined in this location instance: "
-        throw NullPointerException("$message $xyz")
+        nullPointer("World not defined in this location instance: $xyz.")
     }
 
 /**
  * 将位置实例简化为紧凑的单行字符串。
  *
- * 适用于轻量化存储或临时控制台输出。
  * - 格式：`世界`~`X,Y,Z`~`Yaw/Pitch`
- * - 注意：转换回 [Location] 需用 [String.toLocation]
+ * - 逆操作请使用 [String.toLocation]
  *
- * 需确保 [Location.world] 不为 `null`，
- * 否则世界将保存为字符串的 `"null"`，且解析回 [Location] 时会失败。
- *
- * @return 简化为单行字符串的位置信息
- * @see String.toLocation
+ * @throws NullPointerException 当位置所属世界未定义
  */
-fun Location.toStringSingleLine(): String {
-    val worldName = this.world?.name ?: "null"
-    return "$worldName~$x,$y,$z~$yaw,$pitch"
-}
+fun Location.toStringSingleLine(): String = "${requiredWorld.name}~$x,$y,$z~$yaw,$pitch"
 
 /**
- * 将符合 [Location.toStringSingleLine]
- * 产出格式的字符串转换回 [Location] 对象。
+ * 将符合格式的字符串解析为 [Location] 对象。
  *
- * @return 解析结果，若失败则返回 `null`
+ * @return 解析结果，失败则返回 `null`
  * @see Location.toStringSingleLine
  */
 fun String.toLocation(): Location? {

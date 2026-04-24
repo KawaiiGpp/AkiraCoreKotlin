@@ -25,17 +25,7 @@ data class ParticlePack(
     val data: Any? = null
 ) {
     /**
-     * 快捷创建一个粒子效果预设包。
-     *
-     * 当需要 `X/Y/Z` 三轴偏移或扩散范围一致，
-     * 可优先使用该构造方法。
-     *
-     * @param particle 粒子类型
-     * @param amount 粒子数量
-     * @param offset 统一应用于xyz三轴的偏移或扩散范围
-     * @param extra 粒子速度或亮度
-     * @param data 粒子附加数据
-     * @see ParticlePack
+     * 创建 `X/Y/Z` 轴统一 [offset] 的实例。
      */
     constructor(
         particle: Particle,
@@ -48,18 +38,14 @@ data class ParticlePack(
     )
 
     /**
-     * 向指定玩家播放粒子效果。
-     *
-     * @param player 播放对象
-     * @param location 播放位置，默认为 [Player.location]
+     * 向 [player] 播放粒子效果。
      */
     fun play(player: Player, location: Location = player.location) =
         player.spawnParticle(type, location, amount, offsetX, offsetY, offsetZ, extra, data)
 
     /**
-     * 在世界的指定坐标广播粒子效果。
+     * 在 [location] 处广播粒子效果。
      *
-     * @param location 广播位置
      * @throws NullPointerException 当位置所属世界未定义
      */
     fun broadcast(location: Location) =

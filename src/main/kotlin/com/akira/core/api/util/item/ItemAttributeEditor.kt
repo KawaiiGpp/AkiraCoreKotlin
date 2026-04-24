@@ -10,12 +10,13 @@ import org.bukkit.attribute.AttributeModifier.Operation
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import java.util.*
 
 /**
  * 物品属性编辑器
  *
  * - 封装了对于 [ItemMeta.attributeModifiers] 的基础操作
- * - 属性 [namespace] 用于配合修饰符名称生成更独立的 `UUID`
+ * - 属性 [namespace] 用于配合修饰符名称生成更独立的 [UUID]
  *
  * @property meta 编辑对象
  * @property attribute 编辑属性类型
@@ -27,18 +28,15 @@ class ItemAttributeEditor(
     private val namespace: String?
 ) {
     /**
-     * 为 [ItemStack] 创建属性编辑器。
+     * 为 [item] 创建关于 [attribute] 属性的编辑器。
      *
      * - 自动获取并验证 [ItemStack.itemMeta]
      * - 自动以 [AkiraPlugin.name] 为 [namespace]
      *
-     * @param item 编辑对象
-     * @param attribute 编辑属性类型
-     * @param plugin 所属插件
-     * @throws IllegalArgumentException 当物品实例不合法
+     * @throws IllegalArgumentException 当 [item] 不适用编辑器
      */
     constructor(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin)
-            : this(requireValidMeta(item), attribute, plugin.name)
+            : this(item.requiredMeta, attribute, plugin.name)
 
     /**
      * 获取 [ItemMeta.attributeModifiers]，若为 `null` 则返回一个空列表。
@@ -47,10 +45,7 @@ class ItemAttributeEditor(
         get() = meta.attributeModifiers?.let { it[attribute] } ?: listOf()
 
     /**
-     * 移除对应的修饰符。
-     *
-     * @param name 修饰符名称
-     * @return 若其存在则删除后返回 `true`，否则返回 `false`
+     * 移除修饰符，若存在则返回 `true`，否则返回 `false`。
      */
     fun remove(name: String): Boolean {
         val filtered = modifiers.filter { it.uniqueId == specifyUniqueId(name, namespace) }
@@ -62,16 +57,11 @@ class ItemAttributeEditor(
 
     /**
      * 新增修饰符，若已存在则覆盖。
-     *
-     * @param name 修饰符名称
-     * @param value 修饰值
-     * @param operation 修饰行为
-     * @param slot 生效槽位，默认 [EquipmentSlotGroup.ANY]
      */
     fun set(
         name: String,
         value: Double,
-        operation: Operation,
+        operation: Operation = Operation.ADD_NUMBER,
         slot: EquipmentSlotGroup = EquipmentSlotGroup.ANY
     ) {
         val modifier = specifyAttributeModifier(name, namespace, value, operation, slot)
@@ -82,18 +72,14 @@ class ItemAttributeEditor(
 
     /**
      * 判断修饰符是否已存在。
-     *
-     * @param name 修饰符名称
-     * @return 若存在则返回 `true`，否则返回 `false`
      */
     fun contains(name: String): Boolean {
         return modifiers.any { it.uniqueId == specifyUniqueId(name, namespace) }
     }
 
     /**
-     * 尝试应用更改后的 [ItemMeta] 到 [ItemStack]。
+     * 应用更改后的 [ItemMeta] 到 [ItemStack]。
      *
-     * @param item 物品实例
      * @throws IllegalArgumentException 当 [ItemMeta] 不兼容该物品时
      */
     fun apply(item: ItemStack) {

@@ -1,5 +1,6 @@
 package com.akira.core.api
 
+import com.akira.core.api.util.general.noSuchElm
 import java.util.*
 
 /**
@@ -25,8 +26,6 @@ abstract class Manager<K, E> {
     /**
      * 注册一个元素。
      *
-     * @param key 键
-     * @param element 元素
      * @throws IllegalArgumentException 当该键已被注册时抛出
      */
     open fun register(key: K, element: E) {
@@ -37,7 +36,6 @@ abstract class Manager<K, E> {
     /**
      * 卸载一个元素。
      *
-     * @param key 键
      * @throws IllegalArgumentException 当该键未被注册时抛出
      */
     open fun unregister(key: K) {
@@ -52,37 +50,23 @@ abstract class Manager<K, E> {
 
     /**
      * 判断该键是否已被注册。
-     *
-     * @param key 键
-     * @return 若已注册返回 `true`，否则返回 `false`
      */
     fun isRegistered(key: K): Boolean = map.containsKey(key)
 
     /**
-     * 根据键获取对应的元素。
-     *
-     * @param key 键
-     * @return 若键存在则返回对应元素，否则返回 `null`
+     * 获取与 [key] 对应的元素，不存在则返回 `null`。
      */
     fun get(key: K): E? = map[key]
 
     /**
-     * 根据键获取对应的元素，若键不存在则获取默认值并返回。
-     *
-     * @param key 键
-     * @param default 若键不存在，则执行该代码块以获取默认值
-     * @return 若键存在则返回对应元素，否则返回默认值
+     * 获取与 [key] 对应的元素，不存在则返回 [default] 的结果。
      */
     fun getOrElse(key: K, default: () -> E): E = map[key] ?: default()
 
     /**
-     * 根据键获取对应的元素，若键不存在则抛出异常。
+     * 获取与 [key] 对应的元素，若不存在则抛出异常。
      *
-     * @param key 键
-     * @return 若键存在则返回对应元素，否则抛出异常
      * @throws NoSuchElementException 当键不存在时抛出
      */
-    fun getOrThrow(key: K): E {
-        return map[key] ?: throw NoSuchElementException("No element present for key: $key")
-    }
+    fun getOrThrow(key: K): E = map[key] ?: noSuchElm("No element present for key: $key")
 }

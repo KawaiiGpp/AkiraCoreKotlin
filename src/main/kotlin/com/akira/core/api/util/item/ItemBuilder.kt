@@ -1,5 +1,6 @@
 package com.akira.core.api.util.item
 
+import com.akira.core.api.util.item.ItemBuilder.Companion.build
 import com.akira.core.api.util.text.toComponent
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -33,18 +34,14 @@ class ItemBuilder {
     var enchantments: MutableMap<Enchantment, Int> = mutableMapOf()
 
     /**
-     * 添加物品描述。
-     *
-     * @param line 描述内容
+     * 添加单行物品描述。
      */
     fun addLore(line: String) {
         lore.add(line)
     }
 
     /**
-     * 添加物品属性隐藏标签。该操作是幂等的。
-     *
-     * @param flag 属性隐藏标签
+     * 添加物品属性隐藏标签，若重复将覆盖。
      */
     fun addFlag(flag: ItemFlag) {
         flags.add(flag)
@@ -52,25 +49,16 @@ class ItemBuilder {
 
     /**
      * 批量添加物品描述。
-     *
-     * @param lines 多行描述内容
      */
     fun addLores(vararg lines: String) = lines.forEach(this.lore::add)
 
     /**
-     * 批量添加物品属性隐藏标签。该操作是幂等的。
-     *
-     * @param flags 多个属性隐藏标签
+     * 批量添加物品属性隐藏标签，若重复将覆盖。
      */
     fun addFlags(vararg flags: ItemFlag) = flags.forEach(this.flags::add)
 
     /**
-     * 添加附魔信息。
-     *
-     * 若已有该附魔类型，则新等级覆盖旧等级。
-     *
-     * @param ench 附魔类型
-     * @param level 等级
+     * 添加附魔信息。若已有该类型，则新等级覆盖旧等级。
      */
     fun addEnchant(ench: Enchantment, level: Int) {
         enchantments[ench] = level
@@ -79,7 +67,6 @@ class ItemBuilder {
     /**
      * 根据已设定的参数构建 [ItemStack]。
      *
-     * @return 构建完毕的 [ItemStack]
      * @throws IllegalArgumentException 当参数校验不通过时由 [initResult] 抛出
      * @see initResult
      */
@@ -109,7 +96,6 @@ class ItemBuilder {
      * - 未启用 [unsafeAmount] 时 [amount] 越界
      * - 若构建的 [ItemStack.itemMeta] 为 `null`
      *
-     * @return 通过校验的 [ItemStack]
      * @throws IllegalArgumentException 当校验不通过
      */
     private fun initResult(): ItemStack {
@@ -125,5 +111,12 @@ class ItemBuilder {
         requireNotNull(item.itemMeta) { "Item meta from $material is null. " }
 
         return item
+    }
+
+    companion object {
+        /**
+         * 使用 `DSL` 语法构建 [ItemStack]。
+         */
+        fun build(block: ItemBuilder.() -> Unit) = ItemBuilder().apply(block).build()
     }
 }

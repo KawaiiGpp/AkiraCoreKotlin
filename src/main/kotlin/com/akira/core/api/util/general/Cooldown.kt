@@ -10,32 +10,27 @@ import org.bukkit.scheduler.BukkitTask
  * - 封装延时任务与状态管理
  * - 非线程安全
  *
- * 需提供一个 [AkiraPlugin] 作为任务归属。
- *
  * @property plugin 所属插件
  */
 class Cooldown(val plugin: AkiraPlugin) {
     /**
      * 延时任务，用于延时重置冷却状态
      *
-     * 自身亦可指示冷却状态，
-     * 非 `null` 代表处于冷却状态。
-     *
-     * 当冷却自然结束或重置，将设为 `null`。
+     * - 若不为 `null` 代表正在冷却
+     * - 冷却自然结束或重置时，将设为 `null`
      */
     private var bukkitTask: BukkitTask? = null
 
     /**
-     * 指示是否处于冷却状态
+     * 若正在冷却则为 `true`，否则为 `false`
      */
     val inCooldown get() = bukkitTask != null
 
     /**
-     * 启用冷却，并指定冷却时长。
+     * 启用冷却，以 [ticks] 为时长，单位为游戏刻。
      *
-     * @param ticks 冷却时长，单位为游戏刻
      * @return 启用成功返回 `true`，`false` 表示已在冷却
-     * @throws IllegalArgumentException 当 [ticks] 被传入小于或等于零的值
+     * @throws IllegalArgumentException 当 [ticks] 被传入小于或等于零的值时抛出
      */
     fun start(ticks: Long): Boolean {
         require(ticks > 0) { "Ticks for cooldown must be > 0, but actual: $ticks." }
@@ -47,12 +42,9 @@ class Cooldown(val plugin: AkiraPlugin) {
     }
 
     /**
-     * 强制重启冷却。
+     * 强制重启冷却，以 [ticks] 为时长，单位为游戏刻。
      *
-     * 封装了 [reset] 与 [start] 的逻辑。
-     *
-     * @param ticks 冷却时长，单位为游戏刻
-     * @throws IllegalArgumentException 当 [ticks] 被传入小于或等于零的值
+     * @throws IllegalArgumentException 当 [ticks] 被传入小于或等于零的值时抛出
      */
     fun restart(ticks: Long) {
         reset()
@@ -60,7 +52,7 @@ class Cooldown(val plugin: AkiraPlugin) {
     }
 
     /**
-     * 重置冷却状态。此方法是幂等的。
+     * 重置冷却状态，若未在冷却则不作处理。
      */
     fun reset() {
         bukkitTask?.cancel()

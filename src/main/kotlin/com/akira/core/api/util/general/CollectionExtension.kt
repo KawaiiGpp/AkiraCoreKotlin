@@ -6,7 +6,6 @@ import kotlin.random.Random
  * 对列表进行随机批量采样。
  *
  * @param amount 样本数量，取值范围 `0..size`
- * @return 随机样本列表
  * @throws IllegalArgumentException 当 [amount] 为负数或大于被采样列表的 [List.size] 时抛出
  */
 fun <T> List<T>.randomSample(amount: Int): List<T> {
@@ -27,7 +26,6 @@ fun <T> List<T>.randomSample(amount: Int): List<T> {
  * 对列表进行加权随机采样。
  *
  * @param transform 权重获取函数
- * @return 加权采样结果
  * @throws IllegalArgumentException 当被采样列表为空，或所有元素的权重值之总和等于零时抛出
  */
 fun <T> Collection<T>.randomWeighted(transform: (T) -> Int): T {
@@ -50,5 +48,5 @@ fun <T> Collection<T>.randomWeighted(transform: (T) -> Int): T {
         if (point < accumulator) return it
     }
 
-    throw IllegalStateException("Internal error: It should never reach here.")
+    illegalState("Internal error: It should never reach here.")
 }
