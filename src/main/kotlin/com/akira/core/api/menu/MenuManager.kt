@@ -14,6 +14,6 @@ class MenuManager : Manager<String, Menu>() {
      * 通过 [inventory] 寻找匹配的菜单蓝图。
      */
     fun find(inventory: Inventory): Menu? {
-        return map.values.firstOrNull { it.matches(inventory) }
+        return registry.values.firstOrNull { it.matches(inventory) }
     }
 }

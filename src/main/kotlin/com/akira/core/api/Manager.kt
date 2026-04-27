@@ -16,12 +16,12 @@ import java.util.*
  * @param E 被管理元素的类型
  */
 abstract class Manager<K, E> {
-    protected val map: MutableMap<K, E> = HashMap()
+    protected val registry: MutableMap<K, E> = HashMap()
 
     /**
      * 内部映射表的只读视图
      */
-    val container: Map<K, E> get() = Collections.unmodifiableMap(map)
+    val registryView: Map<K, E> get() = Collections.unmodifiableMap(registry)
 
     /**
      * 注册一个元素。
@@ -30,7 +30,7 @@ abstract class Manager<K, E> {
      */
     open fun register(key: K, element: E) {
         require(!this.isRegistered(key)) { "Key $key already registered." }
-        map.put(key, element)
+        registry.put(key, element)
     }
 
     /**
@@ -40,33 +40,33 @@ abstract class Manager<K, E> {
      */
     open fun unregister(key: K) {
         require(this.isRegistered(key)) { "Key $key not registered." }
-        map.remove(key)
+        registry.remove(key)
     }
 
     /**
      * 清空映射表。
      */
-    open fun clear() = map.clear()
+    open fun clear() = registry.clear()
 
     /**
      * 判断该键是否已被注册。
      */
-    fun isRegistered(key: K): Boolean = map.containsKey(key)
+    fun isRegistered(key: K): Boolean = registry.containsKey(key)
 
     /**
      * 获取与 [key] 对应的元素，不存在则返回 `null`。
      */
-    fun get(key: K): E? = map[key]
+    fun get(key: K): E? = registry[key]
 
     /**
      * 获取与 [key] 对应的元素，不存在则返回 [default] 的结果。
      */
-    fun getOrElse(key: K, default: () -> E): E = map[key] ?: default()
+    fun getOrElse(key: K, default: () -> E): E = registry[key] ?: default()
 
     /**
      * 获取与 [key] 对应的元素，若不存在则抛出异常。
      *
      * @throws NoSuchElementException 当键不存在时抛出
      */
-    fun getOrThrow(key: K): E = map[key] ?: noSuchElm("No element present for key: $key")
+    fun getOrThrow(key: K): E = registry[key] ?: noSuchElm("No element present for key: $key")
 }
