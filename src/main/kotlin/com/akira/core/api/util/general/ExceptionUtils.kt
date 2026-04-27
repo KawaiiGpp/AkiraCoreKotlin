@@ -12,4 +12,6 @@ fun nullPointer(message: String): Nothing = throw NullPointerException(message)
 
 fun unsprtOpera(message: String): Nothing = throw UnsupportedOperationException(message)
 
-fun ioFailure(message:String):Nothing = throw IOException(message)
+fun ioFailure(message: String): Nothing = throw IOException(message)
+
+fun outOfBounds(message: String): Nothing = throw IndexOutOfBoundsException(message)
