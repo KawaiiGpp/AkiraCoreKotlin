@@ -8,9 +8,9 @@ import kotlin.math.min
 /**
  * 无效化 [EntityDamageEvent] 中的减伤修饰符。
  *
- * 当所有减伤算法失效，扣血行为类似于真伤逻辑，默认不绕过伤害吸收。
+ * - 当所有减伤算法失效，扣血行为类似于真伤，默认不绕过伤害吸收
  *
- * @param bypassAbsorption 是否使伤害吸收失效，默认为 `false`
+ * @param bypassAbsorption 是否绕过伤害吸收，默认为 `false`
  */
 @Suppress("DEPRECATION")
 fun EntityDamageEvent.bypassVanillaModifiers(bypassAbsorption: Boolean = false) {

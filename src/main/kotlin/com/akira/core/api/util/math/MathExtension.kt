@@ -8,7 +8,7 @@ import java.math.RoundingMode
 /**
  * 将数值四舍五入并保留位数为 [decimalAmount] 位。
  *
- * @throws IllegalArgumentException 当数值非法或位数为负时
+ * @throws IllegalArgumentException 当数值非法或位数为负
  */
 inline fun <reified T : Number> T.simplify(decimalAmount: Int): T {
     this.requireLegit("Number to be simplified")
@@ -28,9 +28,9 @@ inline fun <reified T : Number> T.simplify(decimalAmount: Int): T {
 }
 
 /**
- * 把数值格式化为保留 [decimalAmount] 位小数的字符串。
+ * 将数值转为 [decimalAmount] 位小数的字符串。
  *
- * @throws IllegalArgumentException 当位数为负时
+ * @throws IllegalArgumentException 当 [decimalAmount] 为负时抛出
  */
 fun <T : Number> T.format(decimalAmount: Int = 2): String {
     decimalAmount.requireNonNegative("Decimal amount")

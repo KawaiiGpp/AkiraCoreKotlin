@@ -7,13 +7,13 @@ import org.bukkit.entity.Player
 /**
  * 粒子效果预设包
  *
- * @param type 粒子类型
- * @param amount 粒子数量
- * @param offsetX X轴的偏移或扩散范围
- * @param offsetY Y轴的偏移或扩散范围
- * @param offsetZ Z轴的偏移或扩散范围
- * @param extra 粒子速度或亮度
- * @param data 粒子附加数据
+ * @property type 粒子类型
+ * @property amount 粒子数量
+ * @property offsetX X轴的偏移或扩散范围
+ * @property offsetY Y轴的偏移或扩散范围
+ * @property offsetZ Z轴的偏移或扩散范围
+ * @property extra 粒子速度或亮度
+ * @property data 粒子附加数据
  */
 data class ParticlePack(
     val type: Particle,

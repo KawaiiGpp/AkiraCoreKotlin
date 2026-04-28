@@ -7,12 +7,13 @@ import org.bukkit.inventory.ItemStack
  * 菜单物品声明蓝图
  *
  * - 只声明结构与行为，不持有实例，不储存状态
+ * - 继承该类后，可修改该菜单物品的行为
  *
- * @property item 物品实例
+ * @param item 物品实例
  */
 abstract class MenuItem(private val item: ItemStack) {
     /**
-     * 复制物品实例。
+     * 获取菜单物品的副本。
      */
     fun copyItem() : ItemStack = item.clone()
 

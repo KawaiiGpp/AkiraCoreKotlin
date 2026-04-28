@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
  * - 自动筛选并分发点击事件到相关的 [Menu] 实例
  * - 继承该类后，可重写方法以进行更详细的配置
  *
- * @property manager 接收事件分发的菜单管理器
+ * @param manager 接收事件分发的菜单管理器
  */
 abstract class MenuListener(private val manager: MenuManager) : Listener {
     @EventHandler

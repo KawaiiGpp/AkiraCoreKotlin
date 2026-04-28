@@ -12,7 +12,7 @@ import java.text.DecimalFormat
 val globalDecimalFormat = DecimalFormat("#,##0.##")
 
 /**
- * 直接广播 [content] 到聊天栏或日志，用于快捷调试。
+ * 广播 [content] 到聊天栏或日志，用于快捷调试。
  */
 fun debug(content: Any?) = Bukkit.broadcast(content.toString().toComponent())
 

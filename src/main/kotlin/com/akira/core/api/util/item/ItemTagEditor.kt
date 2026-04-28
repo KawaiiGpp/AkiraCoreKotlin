@@ -14,8 +14,8 @@ import org.bukkit.persistence.PersistentDataType
  * - 封装对 [PersistentDataType] 的操作
  * - 自动根据 [plugin] 生成 [NamespacedKey]
  *
- * @property plugin 所属插件
- * @property meta 编辑对象
+ * @param plugin 所属插件
+ * @param meta 编辑对象
  */
 class ItemTagEditor(
     private val plugin: AkiraPlugin,
@@ -24,11 +24,11 @@ class ItemTagEditor(
     private val data get() = meta.persistentDataContainer
 
     /**
-     * 为 [ItemStack] 创建物品标签编辑器
+     * 为 [item] 创建物品标签编辑器
      *
-     * - 自动验证 [ItemStack.itemMeta] 并将其作为编辑对象。
+     * - 自动验证物品元数据并将其作为编辑对象
      *
-     * @throws IllegalArgumentException 当物品实例不适用
+     * @throws IllegalStateException 物品类型不适用时
      */
     constructor(plugin: AkiraPlugin, item: ItemStack) : this(plugin, item.requiredMeta)
 
@@ -77,9 +77,9 @@ class ItemTagEditor(
     }
 
     /**
-     * 应用更改后的 [ItemMeta] 到 [ItemStack]。
+     * 应用更改后的 [meta] 到 [item]。
      *
-     * @throws IllegalArgumentException 当 [ItemMeta] 不兼容该物品时
+     * @throws IllegalArgumentException 当 [meta] 不兼容
      */
     fun apply(item: ItemStack) {
         if (item.setItemMeta(meta)) return
@@ -89,9 +89,6 @@ class ItemTagEditor(
         illegalArg("Item meta ($metaCls) cannot be applied to this item (type=$type)")
     }
 
-    /**
-     * 根据 [AkiraPlugin] 实例与 [key] 生成专属 [NamespacedKey]。
-     */
     private fun createKey(key: String): NamespacedKey = NamespacedKey(plugin, key)
 
     companion object {

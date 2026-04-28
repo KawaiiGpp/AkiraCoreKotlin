@@ -19,7 +19,7 @@ abstract class Manager<E> : Registry<String, E>() {
     /**
      * 定义通过 [element] 生成注册键的方式。
      *
-     * 注意：需避免不同对象生成同样的键而导致异常。
+     * - 需避免不同对象生成同样的键而导致异常
      */
     protected abstract fun transform(element: E): String
 }

@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta
 /**
  * 皮革盔甲染色工厂
  *
- * @property color 皮革颜色
+ * @param color 皮革颜色
  */
 class DyedArmorFactory(private val color: Color) {
     fun createHelmet(): ItemStack = create(Material.LEATHER_HELMET)
@@ -21,7 +21,7 @@ class DyedArmorFactory(private val color: Color) {
     fun createBoots(): ItemStack = create(Material.LEATHER_BOOTS)
 
     /**
-     * 封装物品创建以及染色的逻辑。[material] 需兼容染色操作。
+     * 封装物品创建以及染色的逻辑。
      *
      * @throws IllegalArgumentException 当传入的 [material] 不支持染色时抛出
      */

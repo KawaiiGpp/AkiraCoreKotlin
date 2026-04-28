@@ -15,12 +15,12 @@ import java.util.*
 /**
  * 物品属性编辑器
  *
- * - 封装了对于 [ItemMeta.attributeModifiers] 的基础操作
- * - 属性 [namespace] 用于配合修饰符名称生成更独立的 [UUID]
+ * - 封装 [ItemMeta.attributeModifiers] 的操作
+ * - [namespace] 用于配合修饰符名生成独立 [UUID]
  *
- * @property meta 编辑对象
- * @property attribute 编辑属性类型
- * @property namespace 命名空间
+ * @param meta 编辑对象
+ * @param attribute 编辑属性类型
+ * @param namespace 命名空间
  */
 class ItemAttributeEditor(
     private val meta: ItemMeta,
@@ -33,7 +33,7 @@ class ItemAttributeEditor(
      * - 自动获取并验证 [ItemStack.itemMeta]
      * - 自动以 [AkiraPlugin.name] 为 [namespace]
      *
-     * @throws IllegalArgumentException 当 [item] 不适用编辑器
+     * @throws IllegalStateException 当 [item] 不适用编辑器
      */
     constructor(item: ItemStack, attribute: Attribute, plugin: AkiraPlugin)
             : this(item.requiredMeta, attribute, plugin.name)
@@ -45,7 +45,8 @@ class ItemAttributeEditor(
         get() = meta.attributeModifiers?.let { it[attribute] } ?: listOf()
 
     /**
-     * 移除修饰符，若存在则返回 `true`，否则返回 `false`。
+     * 移除名为 [name] 的修饰符。
+     * @return 若存在则移除并返回 `true`，否则返回 `false`
      */
     fun remove(name: String): Boolean {
         val filtered = modifiers.filter { it.uniqueId == specifyUniqueId(name, namespace) }
@@ -71,16 +72,16 @@ class ItemAttributeEditor(
     }
 
     /**
-     * 判断修饰符是否已存在。
+     * 判断名为 [name] 的修饰符是否已存在。
      */
     fun contains(name: String): Boolean {
         return modifiers.any { it.uniqueId == specifyUniqueId(name, namespace) }
     }
 
     /**
-     * 应用更改后的 [ItemMeta] 到 [ItemStack]。
+     * 应用更改后的 [ItemMeta] 到 [item]。
      *
-     * @throws IllegalArgumentException 当 [ItemMeta] 不兼容该物品时
+     * @throws IllegalArgumentException 当 [meta] 不兼容 [item]
      */
     fun apply(item: ItemStack) {
         if (item.setItemMeta(meta)) return

@@ -11,11 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * 规范化的插件基类
  *
- * 基于 [JavaPlugin]，
- * 提供了统一规范的基础操作和默认行为：
- * - 默认提示语
- * - 统一的指令、监听器注册
- * - 规范化的日志系统
+ * - 基于 [JavaPlugin]
+ * - 提供统一规范的基础操作和默认行为
  */
 abstract class AkiraPlugin : JavaPlugin() {
     fun logInfo(message: String) = log("Info", NamedTextColor.GREEN, message)

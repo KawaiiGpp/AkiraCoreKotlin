@@ -40,7 +40,7 @@ data class SoundPack(
     /**
      * 在 [location] 处广播声音。
      *
-     * @throws NullPointerException 当位置所属世界未定义
+     * @throws NullPointerException 当 [location] 的所属世界未定义时
      */
     fun broadcast(location: Location) = location.requiredWorld.playSound(location, type, volume, pitch)
 }

@@ -18,11 +18,13 @@ import java.util.*
  *
  * @property rows 菜单行数，范围 `1-6`
  * @property size 菜单格子数，对应 [Inventory.size]
- * @property layout 菜单布局预设
+ * @property layoutView 菜单布局只读视图
  */
 abstract class Menu(val rows: Int) : InventoryHolder {
+    /**
+     * 菜单布局器。描述每个槽位对应的物品
+     */
     private val layout: MutableMap<Int, MenuItem> = HashMap()
-    val size = rows * 9
 
     init {
         require(rows > 0 && rows <= 6) {
@@ -30,9 +32,7 @@ abstract class Menu(val rows: Int) : InventoryHolder {
         }
     }
 
-    /**
-     * 菜单布局只读视图。
-     */
+    val size = rows * 9
     val layoutView: Map<Int, MenuItem> get() = Collections.unmodifiableMap(layout)
 
     /**

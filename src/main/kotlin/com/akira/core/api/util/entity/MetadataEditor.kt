@@ -9,10 +9,10 @@ import org.bukkit.metadata.Metadatable
  * 实体元数据编辑器
  *
  * - 封装了有关 [MetadataValue] 的操作
- * - 每个插件有独立储存空间，可避免插件之间的路径冲突
+ * - 每个插件独立储存，可避免插件之间的路径冲突
  *
- * @property plugin 所属插件
- * @property owner 编辑对象
+ * @param plugin 所属插件
+ * @param owner 编辑对象
  */
 class MetadataEditor(private val plugin: AkiraPlugin, private val owner: Metadatable) {
     /**

@@ -11,7 +11,7 @@ import java.util.*
 /**
  * 通过 `Mojang API` 获取玩家的 [UUID]。
  *
- * - 以 [plugin] 的名义，启动异步拉取数据，避免了阻塞。
+ * - 以 [plugin] 的名义，启动异步拉取数据以避免阻塞
  *
  * @param callback 若成功获取 [UUID]，该回调执行
  * @param exceptionSolver 若有异常，该回调执行

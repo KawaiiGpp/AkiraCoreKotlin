@@ -11,9 +11,9 @@ abstract class ConfigFile(
     protected val plugin: AkiraPlugin,
     protected val templatePath: String? = null
 ) {
-    val fullName = "$name.yml"
+    val fileName = "$name.yml"
 
-    protected val file = File(plugin.dataFolder, fullName)
+    protected val file = File(plugin.dataFolder, fileName)
     protected lateinit var config: YamlConfiguration
 
     fun save() = config.save(file)
@@ -33,7 +33,7 @@ abstract class ConfigFile(
     }
 
     private fun applyTemplate() {
-        val stream = plugin.getResource("$templatePath/$fullName")
+        val stream = plugin.getResource("$templatePath/$fileName")
         requireNotNull(stream) { "Cannot find the template for $name at $templatePath." }
 
         BufferedReader(InputStreamReader(stream, Charsets.UTF_8)).use {

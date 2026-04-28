@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack
 /**
  * 物品构建器
  *
- * 简化创建 [ItemStack] 的复杂逻辑，
- * 调用 [build] 即可基于已配置参数新建 [ItemStack]。
+ * - 封装 [ItemStack] 的构建流程
+ * - 调用 [build] 即可基于已配置参数新建 [ItemStack]
  *
  * @property material 物品类型，默认 `null`，必填
  * @property amount 数量，默认 `1`

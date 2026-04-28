@@ -13,10 +13,10 @@ import java.util.*
  * 实体属性编辑器
  *
  * - 封装对实体 [AttributeInstance] 的操作
- * - [AttributeModifier] 的 [UUID] 基于名称与 [namespace] 生成
+ * - 修饰符的 [UUID] 基于名称与 [namespace] 生成
  *
- * @property instance 属性实例
- * @property namespace 命名空间
+ * @param instance 属性实例
+ * @param namespace 命名空间
  */
 class AttributeEditor(
     private val instance: AttributeInstance,
@@ -28,7 +28,7 @@ class AttributeEditor(
      * - 通过 [LivingEntity.requireAttribute] 获取属性实例
      * - 自动以 [AkiraPlugin.name] 为命名空间
      *
-     * @throws IllegalArgumentException 当实体不支持该属性类型
+     * @throws IllegalArgumentException 实体不支持该属性类型
      */
     constructor(entity: LivingEntity, attribute: Attribute, plugin: AkiraPlugin) :
             this(entity.requireAttribute(attribute), plugin.name)
@@ -42,7 +42,7 @@ class AttributeEditor(
     val defaultValue get() = instance.defaultValue
 
     /**
-     * 添加新的 [AttributeModifier]，若已存在则覆盖。
+     * 添加新的修饰符，若已存在则覆盖。
      */
     fun add(
         name: String,
@@ -57,21 +57,21 @@ class AttributeEditor(
     }
 
     /**
-     * 移除 [AttributeModifier]，若不存在则不作处理。
+     * 移除名为 [name] 的修饰符，若不存在则不作处理。
      */
     fun remove(name: String) {
         instance.removeModifier(generateUniqueId(name))
     }
 
     /**
-     * 获取 [AttributeModifier]，若不存在则返回 `null`。
+     * 获取名为 [name] 的修饰符，若不存在则返回 `null`。
      */
     fun get(name: String): AttributeModifier? {
         return instance.getModifier(generateUniqueId(name))
     }
 
     /**
-     * 判断名为 [name] 的 [AttributeModifier] 是否存在。
+     * 判断名为 [name] 的修饰符是否存在。
      */
     fun contains(name: String): Boolean {
         return instance.modifiers.any { it.uniqueId == generateUniqueId(name) }

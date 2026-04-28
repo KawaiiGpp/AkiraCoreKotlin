@@ -1,5 +1,6 @@
 package com.akira.core.api.util.entity
 
+import com.akira.core.api.util.general.illegalState
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeInstance
@@ -19,23 +20,23 @@ fun LivingEntity.clearMaxHealthModifiers() {
 /**
  * 实体 [Attribute.GENERIC_MAX_HEALTH] 的属性实例
  *
- * @throws IllegalArgumentException 当实体不支持该属性
+ * @throws IllegalStateException 不支持该属性时
  */
 val LivingEntity.maxHealthAttribute get() = this.requireAttribute(Attribute.GENERIC_MAX_HEALTH)
 
 /**
  * 安全获取实体的 [AttributeInstance]。
  *
- * @throws IllegalArgumentException 当实体不支持该属性
+ * @throws IllegalStateException 不支持该属性时
  */
 fun LivingEntity.requireAttribute(attribute: Attribute): AttributeInstance {
-    val result = this.getAttribute(attribute)
-    return requireNotNull(result) { "Attribute $attribute not supported for $type." }
+    return this.getAttribute(attribute)
+        ?: illegalState("Attribute $attribute not supported for $type.")
 }
 
 /**
  * 实体是否举起盾牌
  *
- * 仅指示实体是否举盾，而非是否进入盾牌防御状态。
+ * - 仅指示实体是否举盾，而非是否进入盾牌防御状态
  */
 val LivingEntity.isShieldRaised get() = isHandRaised && activeItem.type == Material.SHIELD
