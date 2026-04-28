@@ -1,8 +1,8 @@
 package com.akira.core.api.config
 
-import com.akira.core.api.EnhancedManager
+import com.akira.core.api.Manager
 
-class ConfigManager : EnhancedManager<ConfigFile>() {
+class ConfigManager : Manager<ConfigFile>() {
     fun initializeAll() = registry.values.forEach(ConfigFile::initialize)
 
     fun saveAll() = registry.values.forEach(ConfigFile::save)
