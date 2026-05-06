@@ -14,22 +14,31 @@ class InfoCommand(plugin: AkiraCore) : EnhancedExecutor(plugin, "akiracore") {
         registerRoute(Info())
     }
 
-    private inner class Info : CommandRoute(name, SenderLimit.NONE, arrayOf(), "显示当前插件信息。") {
+    private inner class Info : CommandRoute(
+        name,
+        SenderLimit.NONE,
+        arrayOf(),
+        "显示当前插件信息。"
+    ) {
         override fun execute(sender: CommandSender, args: Array<String>): Boolean {
+            val version = plugin.pluginMeta.version
+            val authors = plugin.pluginMeta.authors.joinToString()
+
             sender.sendLine(45, NamedTextColor.DARK_GRAY)
 
-            sender.sendMessage(
-                Component.text("Akira Core (Kotlin ver.) ", NamedTextColor.LIGHT_PURPLE)
-                    .append(Component.text("v${plugin.pluginMeta.version}", NamedTextColor.WHITE))
-            )
+            sender.sendMessage {
+                Component.text("Akira Core ", NamedTextColor.LIGHT_PURPLE)
+                    .append(Component.text("v$version", NamedTextColor.WHITE))
+            }
 
-            sender.sendMessage(
+            sender.sendMessage {
                 Component.text("开发者：", NamedTextColor.GRAY)
-                    .append(Component.text(plugin.pluginMeta.authors.joinToString(), NamedTextColor.GREEN))
-            )
+                    .append(Component.text(authors, NamedTextColor.GREEN))
+            }
 
             sender.sendMessage(Component.text("插件已在正常工作，感谢你的选择！", NamedTextColor.GRAY))
             sender.sendLine(45, NamedTextColor.DARK_GRAY)
+
             return true
         }
     }

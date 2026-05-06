@@ -65,19 +65,19 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
             .maxByOrNull { it.elements.count { it.isLiteral } }
 
         when {
-            route == null -> sender.sendMessage(
+            route == null -> sender.sendMessage {
                 Component.text(
                     "未知指令，请使用 /$name help 查看可用指令。",
                     NamedTextColor.RED
                 )
-            )
+            }
 
-            !route.limit.allow(sender) -> sender.sendMessage(
+            !route.limit.allow(sender) -> sender.sendMessage {
                 Component.text(
                     "无法以当前身份执行：${route.limit.deniedMessage}",
                     NamedTextColor.RED
                 )
-            )
+            }
 
             else -> this.dispatch(sender, args, route)
         }
@@ -136,11 +136,11 @@ class CommandHandler(private val plugin: AkiraPlugin, val name: String) {
         override fun execute(sender: CommandSender, args: Array<String>): Boolean {
             sender.sendLine(60, NamedTextColor.DARK_GRAY)
 
-            sender.sendMessage(
+            sender.sendMessage {
                 Component.text("以下为 ", NamedTextColor.WHITE)
                     .append(Component.text("/$name", NamedTextColor.YELLOW))
                     .append(Component.text(" 的指令路径：", NamedTextColor.WHITE))
-            )
+            }
             sender.sendEmptyLine()
 
             storage.flatMap {
