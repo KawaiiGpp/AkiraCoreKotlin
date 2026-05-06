@@ -11,8 +11,9 @@
 推荐使用 Kotlin 而不是 Java 开发，可体验到更多 Kotlin 相关特性。
 
 ### 1. 插件构建完能否自动部署到服务端里？
-能，只需要一点小改动。  
-把 `build.gradle.kts` 的 `serverFolder` 属性改成你的服务端路径，  
+能，只需对构建配置做点小改动。  
+- 把 `build.gradle.kts` 的 `serverFolder` 属性改为服务端路径
+
 执行 Gradle 任务 `build` 的时候就会自动完成复制，即自动部署。
 
 ### 2. 子插件还需打包 Kotlin 标准库吗？
@@ -26,11 +27,11 @@
 即可使子插件在运行时复用已有的标准库。
 
 ### 3. 开发子插件时，我应该如何引用依赖？
-使用本地 `Maven` 部署依赖，并在子插件 `build.gradle` 中引用。  
+使用本地 `Maven` 部署依赖，并在子插件构建配置中引用。  
 依赖的部署（对于 Akira Core）：
 - 运行 Gradle 任务 `publishToMavenLocal` 自动部署
 
-依赖的引用（对于子插件的 `build.gradle`）：
+依赖的引用（对于子插件的构建配置）：
 - `repositories` 添加 `mavenLocal()`
 - `dependencies` 添加 `compileOnly("com.akira:AkiraCoreKotlin:+")`
 
