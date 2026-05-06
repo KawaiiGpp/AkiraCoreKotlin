@@ -1,7 +1,7 @@
 package com.akira.core.command
 
 import com.akira.core.AkiraCore
-import com.akira.core.api.command.CommandNode
+import com.akira.core.api.command.CommandRoute
 import com.akira.core.api.command.EnhancedExecutor
 import com.akira.core.api.command.SenderLimit
 import com.akira.core.api.util.text.sendLine
@@ -11,10 +11,10 @@ import org.bukkit.command.CommandSender
 
 class InfoCommand(plugin: AkiraCore) : EnhancedExecutor(plugin, "akiracore") {
     init {
-        registerNode(Info())
+        registerRoute(Info())
     }
 
-    private inner class Info : CommandNode(name, SenderLimit.NONE, arrayOf(), "显示当前插件信息。") {
+    private inner class Info : CommandRoute(name, SenderLimit.NONE, arrayOf(), "显示当前插件信息。") {
         override fun execute(sender: CommandSender, args: Array<String>): Boolean {
             sender.sendLine(45, NamedTextColor.DARK_GRAY)
 
