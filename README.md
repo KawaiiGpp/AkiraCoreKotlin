@@ -3,7 +3,7 @@
 该插件旨在为开发者提供可扩展的基类和开箱即用的工具，提升开发效率。
 
 ## 依赖 - Dependency
-该插件基于 `Paper Spigot` 的 `1.20.6-R0.1-SNAPSHOT` 核心。  
+该插件基于 `Paper Spigot 1.20.6`。  
 同时，打包了重定位后（Relocated）的 Kotlin 标准库用于提升兼容性。
 
 ## 使用方式 - Usage
@@ -37,3 +37,9 @@
 ## 关于 - About
 本项目旨在服务 Akira 系列插件，尽管项目是公开的，  
 但 API 随时可能根据插件的实际开发需求产生改动。
+
+## 版本 - Versions
+- 所需 Java 版本：`21` 或更高
+- Paper Spigot 核心：`1.20.6-R0.1-SNAPSHOT`
+- Kotlin 插件：`2.1.20`
+- Gradle 版本：`8.10.2`
