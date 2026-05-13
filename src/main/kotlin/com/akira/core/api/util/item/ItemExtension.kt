@@ -1,6 +1,7 @@
 package com.akira.core.api.util.item
 
 import com.akira.core.api.util.general.illegalState
+import org.bukkit.attribute.Attribute
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
@@ -15,3 +16,13 @@ val ItemStack.requiredMeta: ItemMeta
         if (itemMeta == null) illegalState("Item meta (type=$type) is null.")
         return itemMeta
     }
+
+/**
+ * 为物品移除该属性类型下，所有符合名称的属性修饰符。
+ */
+fun ItemMeta.removeAttributeModifier(attribute: Attribute, name: String) {
+    val modifiers = this.getAttributeModifiers(attribute) ?: return
+
+    modifiers.filter { it.name == name }
+        .forEach { this.removeAttributeModifier(attribute, it) }
+}
