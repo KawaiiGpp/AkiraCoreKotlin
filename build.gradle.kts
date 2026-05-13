@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.akira"
-version = "1.4.0"
+version = "1.4.1"
 
 val serverFolder = "D:/Server/PaperDebug"
 val pluginFolder = "$serverFolder/plugins"
@@ -48,7 +48,7 @@ tasks.register<Copy>("deployPlugin") {
     rename { "${project.name}.jar" }
 }
 
-tasks.build { dependsOn("deployPlugin") }
+tasks.named("build") { dependsOn("deployPlugin") }
 
 tasks.named("publishToMavenLocal") { finalizedBy("deployPlugin") }
 
