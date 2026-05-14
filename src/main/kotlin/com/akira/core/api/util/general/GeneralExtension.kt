@@ -1,5 +1,6 @@
 package com.akira.core.api.util.general
 
+import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier
@@ -40,4 +41,18 @@ inline fun <T> T.ensure(
 ): T {
     require(predicate(this)) { message(this) }
     return this
+}
+
+/**
+ * 判断与另一个属性修饰符是否在名称与内容上相似。
+ *
+ * - 不对比 [AttributeModifier.uniqueId] 属性
+ */
+fun AttributeModifier.isSimilar(modifier: AttributeModifier?): Boolean {
+    if (modifier == null) return false
+
+    return this.name == modifier.name
+            && this.amount == modifier.amount
+            && this.operation == modifier.operation
+            && this.slotGroup == modifier.slotGroup
 }
